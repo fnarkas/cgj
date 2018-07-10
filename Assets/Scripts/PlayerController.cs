@@ -48,6 +48,8 @@ public class PlayerController : MonoBehaviour
            verticalPlayer = "P1Vertical"; 
            Debug.Log("1 is Vertival 2 is Horizontal");
         }
+           horizontalPlayer = "P1Horizontal"; 
+           verticalPlayer = "P1Vertical"; 
     }
 
     // Update is called once per frame
