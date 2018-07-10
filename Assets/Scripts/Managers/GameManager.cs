@@ -13,12 +13,7 @@ public class GameManager : MonoBehaviour {
 	public static GameState gameState;
 
     private GameObject pacman;
-    private GameObject blinky;
-    private GameObject pinky;
-    private GameObject inky;
-    private GameObject clyde;
-
-	public static bool scared;
+    	public static bool scared;
     static public int score;
 
 	public float scareLength;
@@ -27,6 +22,7 @@ public class GameManager : MonoBehaviour {
     public float SpeedPerLevel;
 
     private List<Checkpoint> checkpoints;
+    private List<GhostMove> ghosts;
     private int currentCheckpoint = 0;
     
     //-------------------------------------------------------------------
@@ -80,12 +76,9 @@ public class GameManager : MonoBehaviour {
         AssignGhosts();
         ResetVariables();
 
-
-        // Adjust Ghost variables!
-        clyde.GetComponent<GhostMove>().speed += Level * SpeedPerLevel;
-        blinky.GetComponent<GhostMove>().speed += Level * SpeedPerLevel;
-        pinky.GetComponent<GhostMove>().speed += Level * SpeedPerLevel;
-        inky.GetComponent<GhostMove>().speed += Level * SpeedPerLevel;
+        foreach(var ghost in ghosts){
+            ghost.speed += Level * SpeedPerLevel;
+        }
         pacman.GetComponent<PlayerController>().speed += Level*SpeedPerLevel/2;
     }
 
@@ -109,19 +102,16 @@ public class GameManager : MonoBehaviour {
         CalmGhosts();
 
 		pacman.transform.position = new Vector3(15f, 11f, 0f);
-		blinky.transform.position = new Vector3(15f, 20f, 0f);
-		pinky.transform.position = new Vector3(14.5f, 17f, 0f);
-		inky.transform.position = new Vector3(16.5f, 17f, 0f);
-		clyde.transform.position = new Vector3(12.5f, 17f, 0f);
 
 		pacman.GetComponent<PlayerController>().ResetDestination();
-		blinky.GetComponent<GhostMove>().InitializeGhost();
-		pinky.GetComponent<GhostMove>().InitializeGhost();
-		inky.GetComponent<GhostMove>().InitializeGhost();
-		clyde.GetComponent<GhostMove>().InitializeGhost();
+        foreach(var ghost in ghosts){
+            ghost.ResetPosition();
+    		ghost.InitializeGhost();
+        }
 
-        gameState = GameState.Init;  
+        gameState = GameState.Game;  
         // TODO: Show ready screen
+        ResetCheckpoints();
 
 	}
 
@@ -134,10 +124,9 @@ public class GameManager : MonoBehaviour {
 	public void ScareGhosts()
 	{
 		scared = true;
-		blinky.GetComponent<GhostMove>().Frighten();
-		pinky.GetComponent<GhostMove>().Frighten();
-		inky.GetComponent<GhostMove>().Frighten();
-		clyde.GetComponent<GhostMove>().Frighten();
+        foreach(var ghost in ghosts){
+    		ghost.Frighten();
+        }
 		_timeToCalm = Time.time + scareLength;
 
         Debug.Log("Ghosts Scared");
@@ -146,23 +135,19 @@ public class GameManager : MonoBehaviour {
 	public void CalmGhosts()
 	{
 		scared = false;
-		blinky.GetComponent<GhostMove>().Calm();
-		pinky.GetComponent<GhostMove>().Calm();
-		inky.GetComponent<GhostMove>().Calm();
-		clyde.GetComponent<GhostMove>().Calm();
+        foreach(var ghost in ghosts){
+    		ghost.Calm();
+        }
 	    PlayerController.killstreak = 0;
     }
 
     void AssignGhosts()
     {
-        // find and assign ghosts
-        clyde = GameObject.Find("clyde");
-        pinky = GameObject.Find("pinky");
-        inky = GameObject.Find("inky");
-        blinky = GameObject.Find("blinky");
         pacman = GameObject.Find("pacman");
+        ghosts = new List<GhostMove>(FindObjectsOfType<GhostMove>());
 
-        if (clyde == null || pinky == null || inky == null || blinky == null) Debug.Log("One of ghosts are NULL");
+
+
         if (pacman == null) Debug.Log("Pacman is NULL");
 
     }
@@ -171,11 +156,17 @@ public class GameManager : MonoBehaviour {
         var unorderedCheckpoints = FindObjectsOfType<Checkpoint>();
         checkpoints = new List<Checkpoint>(unorderedCheckpoints);
         checkpoints.Sort((x,y) => x.GetComponent<CheckpointEditor>().Number.CompareTo(y.GetComponent<CheckpointEditor>().Number));
-        currentCheckpoint = 0;
+        ResetCheckpoints();
+       }
+
+    private void ResetCheckpoints(){
+     currentCheckpoint = 0;
         foreach(var checkpoint in checkpoints){
             checkpoint.gameObject.SetActive(false);
             checkpoint.name = "checkpoint";
-            checkpoint.GetComponentInChildren<Canvas>().gameObject.SetActive(false);
+            Canvas canvas = checkpoint.GetComponentInChildren<Canvas>();
+            if(canvas)
+                canvas.gameObject.SetActive(false);
         }
         checkpoints[0].gameObject.SetActive(true);
     }

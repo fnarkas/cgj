@@ -56,6 +56,7 @@ public class GhostMove : MonoBehaviour {
 	{
 	    _gm = GameObject.Find("Game Manager").GetComponent<GameManager>();
         _toggleInterval = _gm.scareLength * 0.33f * 0.20f;  
+	    _startPos = transform.position;
 		InitializeGhost();
 	}
 
@@ -93,9 +94,12 @@ public class GhostMove : MonoBehaviour {
 
 	public void InitializeGhost()
 	{
-	    _startPos = transform.position;
 		InitializeGhost(_startPos);
 
+	}
+
+	public void ResetPosition(){
+		transform.position = _startPos;
 	}
 
     public void InitializeGhost(Vector3 pos)

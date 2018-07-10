@@ -259,7 +259,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 454750, guid: db15fdab6be0e104fbcf2c44afaad894, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 14.5
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 454750, guid: db15fdab6be0e104fbcf2c44afaad894, type: 2}
       propertyPath: m_LocalPosition.y
@@ -315,7 +315,7 @@ Prefab:
       objectReference: {fileID: 1757211755}
     - target: {fileID: 154750, guid: db15fdab6be0e104fbcf2c44afaad894, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: db15fdab6be0e104fbcf2c44afaad894, type: 2}
@@ -623,7 +623,7 @@ Prefab:
       objectReference: {fileID: 1757211755}
     - target: {fileID: 194802, guid: bc6b2f74c0c842443b5d21543c3e5e16, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bc6b2f74c0c842443b5d21543c3e5e16, type: 2}
@@ -3338,6 +3338,11 @@ Prefab:
       propertyPath: m_Name
       value: checkpoint (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 114131685763276100, guid: af8d717c315d7488caad5b00a09c90cd,
+        type: 2}
+      propertyPath: Number
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: af8d717c315d7488caad5b00a09c90cd, type: 2}
   m_IsPrefabParent: 0
@@ -3821,7 +3826,7 @@ Prefab:
       objectReference: {fileID: 1757211755}
     - target: {fileID: 154592, guid: 9f090580268dde54d8def18b84c4dbab, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 454592, guid: 9f090580268dde54d8def18b84c4dbab, type: 2}
       propertyPath: m_LocalScale.x
