@@ -19,6 +19,7 @@ public class Checkpoint : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("Collision with " + GetComponent<CheckpointEditor>().Number);
         if (other.name == "pacman")
         {
 			gameObject.SetActive(false);

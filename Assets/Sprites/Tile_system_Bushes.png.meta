@@ -2,9 +2,23 @@ fileFormatVersion: 2
 guid: c65efa7f3dc2b4137a5572fc1fd600f1
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Tile_system_Bushes_0
-    21300002: Tile_system_Bushes_1
-    21300004: Tile_system_Bushes_2
+    21300000: maze_t
+    21300002: maze_straight_variation
+    21300004: maze_cross
+    21300006: maze_corner
+    21300008: maze_fat_corner
+    21300010: maze_fat_straight
+    21300012: maze_straight
+    21300014: maze_corss_variation
+    21300016: maze_cross
+    21300018: maze_t
+    21300020: maze_straight
+    21300022: maze_corner
+    21300024: maze_straigh_fat
+    21300026: Tile_system_Bushes_5
+    21300028: Tile_system_Bushes_6
+    21300030: Tile_system_Bushes_7
+    21300032: maze_corner_fat
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -46,7 +60,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 64
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -102,43 +116,113 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Tile_system_Bushes_0
+      name: maze_cross
       rect:
         serializedVersion: 2
-        x: 141
-        y: 99
-        width: 32
-        height: 32
-      alignment: 9
-      pivot: {x: 1.3288611, y: 0.35585022}
+        x: 0
+        y: 83
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tile_system_Bushes_1
+      name: maze_t
       rect:
         serializedVersion: 2
-        x: 173
-        y: 99
-        width: 32
-        height: 32
+        x: 64
+        y: 83
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tile_system_Bushes_2
+      name: maze_straight
       rect:
         serializedVersion: 2
-        x: 205
-        y: 99
-        width: 32
-        height: 32
+        x: 128
+        y: 83
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: maze_corner
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 83
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: maze_fat_straight
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 19
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: maze_fat_corner
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 19
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tile_system_Bushes_6
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 19
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: maze_straight_variation
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 19
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
