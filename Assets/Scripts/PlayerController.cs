@@ -110,6 +110,13 @@ public class PlayerController : MonoBehaviour
         Vector2 dir = _dest - (Vector2)transform.position;
         GetComponent<Animator>().SetFloat("DirX", dir.x);
         GetComponent<Animator>().SetFloat("DirY", dir.y);
+        Vector2 scale = transform.localScale;
+        if(dir.x > 0.0f){
+            scale.x = -Math.Abs(scale.x);
+        }else if(dir.x < 0.0f){
+            scale.x = Math.Abs(scale.x);
+        }
+        transform.localScale = scale; 
     }
 
     bool Valid(Vector2 direction)
