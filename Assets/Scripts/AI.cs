@@ -17,30 +17,34 @@ public class AI : MonoBehaviour {
 	public TileBase redTile;
 
 	private const float RADIUS = 1.5f;
+	private GridLayout gridLayout;
+	private const string DEBUG_TILE = "red";
+	private const float COLLISION_FRACTION = 0.15f;
 
 	void Awake()
 	{
 		if(ghost == null)	Debug.Log ("game object ghost not found");
+		gridLayout = TileMap.GetComponentInParent<GridLayout>();
 	}
 
-	private bool IsIntersection(Vector3 pos, GridLayout gridLayout){
+	private bool IsIntersection(Vector3 pos){
 		int count = 0;
-		if(!IsWallDown(pos, gridLayout)) count++;
-		if(!IsWallUp(pos, gridLayout)) count++;
-		if(!IsWallLeft(pos, gridLayout)) count++;
-		if(!IsWallRight(pos, gridLayout)) count++;
+		if(!IsWallDown(pos)) count++;
+		if(!IsWallUp(pos)) count++;
+		if(!IsWallLeft(pos)) count++;
+		if(!IsWallRight(pos)) count++;
 		return count > 2;
 	}
 	private bool IsWall(Vector3Int pos){
 		TileBase tile = TileMap.GetTile(pos);
 		return tile != null;
 	}
-	private bool IsWallDown(Vector3 pos, GridLayout gridLayout){
+	public bool IsWallDown(Vector3 pos){
 		if (pos == null)
 			return false;
 		Vector3 nextWorldPos = pos + Vector3.down * RADIUS;
-		Vector3 nextWorldPos1 = nextWorldPos + Vector3.left * 0.1f;
-		Vector3 nextWorldPos2 = nextWorldPos + Vector3.right * 0.1f;
+		Vector3 nextWorldPos1 = nextWorldPos + Vector3.left * COLLISION_FRACTION;
+		Vector3 nextWorldPos2 = nextWorldPos + Vector3.right * COLLISION_FRACTION;
 		Vector3Int down1 = gridLayout.WorldToCell(nextWorldPos1);
 		Vector3Int down2 = gridLayout.WorldToCell(nextWorldPos2);
 		TileBase tile1 = TileMap.GetTile(down1);
@@ -49,12 +53,12 @@ public class AI : MonoBehaviour {
 	//	TileMap.SetTile(down2, redTile);	
 		return tile1 != null || tile2 != null;
 	}
-	private bool IsWallUp(Vector3 pos, GridLayout gridLayout){
+	public bool IsWallUp(Vector3 pos){
 		if (pos == null)
 			return false;
 		Vector3 nextWorldPos = pos + Vector3.up * RADIUS;
-		Vector3 nextWorldPos1 = nextWorldPos + Vector3.left * 0.1f;
-		Vector3 nextWorldPos2 = nextWorldPos + Vector3.right * 0.1f;
+		Vector3 nextWorldPos1 = nextWorldPos + Vector3.left * COLLISION_FRACTION;
+		Vector3 nextWorldPos2 = nextWorldPos + Vector3.right * COLLISION_FRACTION;
 		Vector3Int up1 = gridLayout.WorldToCell(nextWorldPos1);
 		Vector3Int up2 = gridLayout.WorldToCell(nextWorldPos2);
 		TileBase tile1 = TileMap.GetTile(up1);
@@ -63,26 +67,31 @@ public class AI : MonoBehaviour {
 	//	TileMap.SetTile(up2, redTile);	
 		return tile1 != null || tile2 != null;
 	}
-	private bool IsWallLeft(Vector3 pos, GridLayout gridLayout){
+	private bool IsWall(TileBase tile){
+		if(tile == null)	
+			return false;
+		return tile.name != DEBUG_TILE;
+	}
+	public bool IsWallLeft(Vector3 pos){
 		if (pos == null)
 			return false;
 		Vector3 nextWorldPos = pos + Vector3.left * RADIUS;
-		Vector3 nextWorldPos1 = nextWorldPos + Vector3.up * 0.1f;
-		Vector3 nextWorldPos2 = nextWorldPos + Vector3.down * 0.1f;
+		Vector3 nextWorldPos1 = nextWorldPos + Vector3.up * COLLISION_FRACTION;
+		Vector3 nextWorldPos2 = nextWorldPos + Vector3.down * COLLISION_FRACTION;
 		Vector3Int left1 = gridLayout.WorldToCell(nextWorldPos1);
 		Vector3Int left2 = gridLayout.WorldToCell(nextWorldPos2);
 		TileBase tile1 = TileMap.GetTile(left1);
 		TileBase tile2 = TileMap.GetTile(left2);
-	//	TileMap.SetTile(left1, redTile);	
-	//	TileMap.SetTile(left2, redTile);	
-		return tile1 != null || tile2 != null;
-	}
-	private bool IsWallRight(Vector3 pos, GridLayout gridLayout){
+		// TileMap.SetTile(left1, redTile);	
+		// TileMap.SetTile(left2, redTile);	
+		return 	IsWall(tile1) || IsWall(tile2);
+		}
+	public bool IsWallRight(Vector3 pos){
 		if (pos == null)
 			return false;
 		Vector3 nextWorldPos = pos + Vector3.right * RADIUS;
-		Vector3 nextWorldPos1 = nextWorldPos + Vector3.up * 0.1f;
-		Vector3 nextWorldPos2 = nextWorldPos + Vector3.down * 0.1f;
+		Vector3 nextWorldPos1 = nextWorldPos + Vector3.up * COLLISION_FRACTION;
+		Vector3 nextWorldPos2 = nextWorldPos + Vector3.down * COLLISION_FRACTION;
 		Vector3Int right1 = gridLayout.WorldToCell(nextWorldPos1);
 		Vector3Int right2 = gridLayout.WorldToCell(nextWorldPos2);
 		TileBase tile1 = TileMap.GetTile(right1);
@@ -104,10 +113,10 @@ public class AI : MonoBehaviour {
 		float dist1, dist2, dist3, dist4;
 		float max_dist = 999999f;
 		dist1 = dist2 = dist3 = dist4 = max_dist;
-		if(!IsWallUp(currentPos, gridLayout)) dist1 = distance(targetTile, new Vector3Int(tilePos.x, tilePos.y+1, tilePos.z));
-        if(!IsWallDown(currentPos, gridLayout)) dist2 = distance(targetTile, new Vector3Int(tilePos.x, tilePos.y - 1, tilePos.z));
-        if(!IsWallLeft(currentPos, gridLayout)) dist3 = distance(targetTile, new Vector3Int(tilePos.x - 1, tilePos.y, tilePos.z));
-        if(!IsWallRight(currentPos, gridLayout)){
+		if(!IsWallUp(currentPos)) dist1 = distance(targetTile, new Vector3Int(tilePos.x, tilePos.y+1, tilePos.z));
+        if(!IsWallDown(currentPos)) dist2 = distance(targetTile, new Vector3Int(tilePos.x, tilePos.y - 1, tilePos.z));
+        if(!IsWallLeft(currentPos)) dist3 = distance(targetTile, new Vector3Int(tilePos.x - 1, tilePos.y, tilePos.z));
+        if(!IsWallRight(currentPos)){
 			dist4 = distance(targetTile, new Vector3Int(tilePos.x + 1, tilePos.y, tilePos.z));
 		}
 
@@ -126,7 +135,6 @@ public class AI : MonoBehaviour {
 		// get current tile
 		//Vector3 currentPos = new Vector3(transform.position.x + 0.499f, transform.position.y + 0.499f);
 		Vector3 currentPos = new Vector3(transform.position.x, transform.position.y);
-		GridLayout gridLayout = TileMap.GetComponentInParent<GridLayout>();
 		Vector3Int tilePos = gridLayout.WorldToCell(currentPos);
 		currentTile = tilePos;
 		Vector3Int nextPos = Vector3Int.zero;
@@ -151,16 +159,16 @@ public class AI : MonoBehaviour {
 		}	
 		Debug.DrawLine(currentPos, nextWorldPos);
 		//TileMap.SetTile(nextPos, redTile);	
-		if(IsWall(nextPos) || IsIntersection(currentPos, gridLayout))
+		if(IsWall(nextPos) || IsIntersection(currentPos))
 		{
 			//---------------------
 			// IF WE BUMP INTO WALL
-			if(IsWall(nextPos) && !IsIntersection(currentPos, gridLayout))
+			if(IsWall(nextPos) && !IsIntersection(currentPos))
 			{
 				// if ghost moves to right or left and there is wall next tile
 				if(ghost.direction.x != 0)
 				{
-					if(IsWallDown(currentPos, gridLayout))	ghost.direction = Vector3.up;
+					if(IsWallDown(currentPos))	ghost.direction = Vector3.up;
 					else 							ghost.direction = Vector3.down;
 					
 				}
@@ -168,7 +176,7 @@ public class AI : MonoBehaviour {
 				// if ghost moves to up or down and there is wall next tile
 				else if(ghost.direction.y != 0)
 				{
-					if(IsWallLeft(currentPos, gridLayout))	ghost.direction = Vector3.right; 
+					if(IsWallLeft(currentPos))	ghost.direction = Vector3.right; 
 					else 							ghost.direction = Vector3.left;
 					
 				}
@@ -178,14 +186,14 @@ public class AI : MonoBehaviour {
 			//---------------------------------------------------------------------------------------
 			// IF WE ARE AT INTERSECTION
 			// calculate the distance to target from each available tile and choose the shortest one
-			if(IsIntersection(currentPos, gridLayout))
+			if(IsIntersection(currentPos))
 			{
 				float dist1, dist2, dist3, dist4;
 				dist1 = dist2 = dist3 = dist4 = 999999f;
-				if(!IsWallUp(currentPos, gridLayout) && !(ghost.direction.y < 0)) 		dist1 = distance(targetTile, new Vector3Int(tilePos.x, tilePos.y+1, tilePos.z));
-				if(!IsWallDown(currentPos, gridLayout) &&  !(ghost.direction.y > 0)) 	dist2 = distance(targetTile, new Vector3Int(tilePos.x, tilePos.y-1, tilePos.z));
-				if(!IsWallLeft(currentPos, gridLayout) && !(ghost.direction.x > 0)) 	dist3 = distance(targetTile, new Vector3Int(tilePos.x-1, tilePos.y, tilePos.z));
-				if(!IsWallRight(currentPos, gridLayout) && !(ghost.direction.x < 0))	dist4 = distance(targetTile, new Vector3Int(tilePos.x+1, tilePos.y, tilePos.z));
+				if(!IsWallUp(currentPos) && !(ghost.direction.y < 0)) 		dist1 = distance(targetTile, new Vector3Int(tilePos.x, tilePos.y+1, tilePos.z));
+				if(!IsWallDown(currentPos) &&  !(ghost.direction.y > 0)) 	dist2 = distance(targetTile, new Vector3Int(tilePos.x, tilePos.y-1, tilePos.z));
+				if(!IsWallLeft(currentPos) && !(ghost.direction.x > 0)) 	dist3 = distance(targetTile, new Vector3Int(tilePos.x-1, tilePos.y, tilePos.z));
+				if(!IsWallRight(currentPos) && !(ghost.direction.x < 0))	dist4 = distance(targetTile, new Vector3Int(tilePos.x+1, tilePos.y, tilePos.z));
 				
 				float min = Mathf.Min(dist1, dist2, dist3, dist4);
 				if(min == dist1) ghost.direction = Vector3.up;
@@ -234,16 +242,16 @@ public class AI : MonoBehaviour {
 		//Debug.Log (ghost.direction.x + " " + ghost.direction.y);
 		//Debug.Log (ghost.name + ": Next Tile (" + nextTile.x + ", " + nextTile.y + ")" );
 
-		if(IsWall(nextPos) || IsIntersection(currentPos, gridLayout))
+		if(IsWall(nextPos) || IsIntersection(currentPos))
 		{
 			//---------------------
 			// IF WE BUMP INTO WALL
-			if(IsWall(nextPos) && !IsIntersection(currentPos, gridLayout))
+			if(IsWall(nextPos) && !IsIntersection(currentPos))
 			{
 				// if ghost moves to right or left and there is wall next tile
 				if(ghost.direction.x != 0)
 				{
-					if(IsWallDown(currentPos, gridLayout))	ghost.direction = Vector3.up;
+					if(IsWallDown(currentPos))	ghost.direction = Vector3.up;
 					else 							ghost.direction = Vector3.down;
 					
 				}
@@ -251,7 +259,7 @@ public class AI : MonoBehaviour {
 				// if ghost moves to up or down and there is wall next tile
 				else if(ghost.direction.y != 0)
 				{
-					if(IsWallLeft(currentPos, gridLayout))	ghost.direction = Vector3.right; 
+					if(IsWallLeft(currentPos))	ghost.direction = Vector3.right; 
 					else 							ghost.direction = Vector3.left;
 					
 				}
@@ -261,15 +269,15 @@ public class AI : MonoBehaviour {
 			//---------------------------------------------------------------------------------------
 			// IF WE ARE AT INTERSECTION
 			// choose one available option at random
-			if(IsIntersection(currentPos, gridLayout))
+			if(IsIntersection(currentPos))
 			{
 				List<Vector3Int> availableTiles = new List<Vector3Int>();
 				Vector3Int chosenTile;
 
-				if(!IsWallUp(currentPos, gridLayout) && !(ghost.direction.y < 0)) 		availableTiles.Add(new Vector3Int(tilePos.x, tilePos.y+1, tilePos.z));
-				if(!IsWallDown(currentPos, gridLayout) &&  !(ghost.direction.y > 0)) 	availableTiles.Add(new Vector3Int(tilePos.x, tilePos.y-1, tilePos.z));
-				if(!IsWallLeft(currentPos, gridLayout) && !(ghost.direction.x > 0)) 	availableTiles.Add(new Vector3Int(tilePos.x-1, tilePos.y, tilePos.z));
-				if(!IsWallRight(currentPos, gridLayout) && !(ghost.direction.x < 0))	availableTiles.Add(new Vector3Int(tilePos.x+1, tilePos.y, tilePos.z));
+				if(!IsWallUp(currentPos) && !(ghost.direction.y < 0)) 		availableTiles.Add(new Vector3Int(tilePos.x, tilePos.y+1, tilePos.z));
+				if(!IsWallDown(currentPos) &&  !(ghost.direction.y > 0)) 	availableTiles.Add(new Vector3Int(tilePos.x, tilePos.y-1, tilePos.z));
+				if(!IsWallLeft(currentPos) && !(ghost.direction.x > 0)) 	availableTiles.Add(new Vector3Int(tilePos.x-1, tilePos.y, tilePos.z));
+				if(!IsWallRight(currentPos) && !(ghost.direction.x < 0))	availableTiles.Add(new Vector3Int(tilePos.x+1, tilePos.y, tilePos.z));
 
 				int rand = Random.Range(0, availableTiles.Count);
 				chosenTile = availableTiles[rand];

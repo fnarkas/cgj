@@ -28,10 +28,13 @@ public class PlayerController : MonoBehaviour
     String verticalPlayer = ""; 
     String horizontalPlayer = ""; 
 
+    AI _ai;
+
     // Use this for initialization
     void Start()
     {
         GM = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        _ai = GameObject.FindObjectOfType<AI>();
         _dest = transform.position;
         RandomizePlayerControls();
     }
@@ -99,28 +102,41 @@ public class PlayerController : MonoBehaviour
     {
         // cast line from 'next to pacman' to pacman
         // not from directly the center of next tile but just a little further from center of next tile
-        Vector2 pos = transform.position;
+        Vector2 pos1 = transform.position;
+        Vector2 pos2 = pos1;
+        Vector2 pos3 = pos1;
         float distance = 0.45f;
         float spread = 0.55f;
         Vector2 dir1 = direction + new Vector2(direction.x * distance, direction.y * distance);
         Vector2 dir2 = dir1;
+        Vector2 dir3 = dir1;
         //Horizontal movement
         if(Math.Abs(direction.x) > Math.Abs(direction.y)){
-            dir1 += Vector2.up * spread;
-            dir2 += Vector2.down * spread;
+            pos1 += Vector2.up * spread;
+            pos3 += Vector2.down *spread;
         }
         // Vertical movement
         else{
-            dir1 += Vector2.left * spread;
-            dir2 += Vector2.right *spread;
+            pos1 += Vector2.left * spread;
+            pos3 += Vector2.right *spread;
         }
-        RaycastHit2D hit1 = Physics2D.Linecast(pos + dir1, pos);
-        RaycastHit2D hit2 = Physics2D.Linecast(pos + dir2, pos);
-        Debug.DrawLine(pos, pos+ dir1);
-        Debug.DrawLine(pos, pos+ dir2);
-        bool colliderIsMe = hit2.collider == GetComponent<Collider2D>() && (hit1.collider == GetComponent<Collider2D>());
+        RaycastHit2D hit1 = Physics2D.Linecast(pos1 + dir1, pos1);
+        RaycastHit2D hit2 = Physics2D.Linecast(pos2 + dir2, pos2);
+        RaycastHit2D hit3 = Physics2D.Linecast(pos3 + dir3, pos3);
+        // Debug.DrawLine(pos1, pos1+ dir1);
+        Debug.DrawLine(pos2, pos2+ dir2);
+        // Debug.DrawLine(pos3, pos3+ dir3);
+        bool isEmpty = true;
+        if(direction == Vector2.left)
+            isEmpty = !_ai.IsWallLeft(pos2);
+        if(direction == Vector2.right)
+            isEmpty = !_ai.IsWallRight(pos2);
+        if(direction == Vector2.up)
+            isEmpty = !_ai.IsWallUp(pos2);
+        if(direction == Vector2.down)
+            isEmpty = !_ai.IsWallDown(pos2);
         bool colliderIsCheckpoint = hit2.collider.name == "checkpoint";
-        return colliderIsMe || colliderIsCheckpoint;
+        return colliderIsCheckpoint || isEmpty;
     }
 
     public void ResetDestination()
