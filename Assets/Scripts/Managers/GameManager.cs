@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
@@ -9,7 +10,7 @@ public class GameManager : MonoBehaviour {
     public static int Level = 0;
     public static int lives = 3;
 
-	public enum GameState { Init, Game, Dead, Scores }
+	public enum GameState { Init, Wait,Game, Dead, Scores }
 	public static GameState gameState;
 
     private GameObject pacman;
@@ -24,10 +25,14 @@ public class GameManager : MonoBehaviour {
     private List<Checkpoint> checkpoints;
     private List<GhostMove> ghosts;
     private int currentCheckpoint = 0;
+
+    public GameObject popup;
     
     //-------------------------------------------------------------------
     // singleton implementation
     private static GameManager _instance;
+    private GameObject _rightPopup;
+    private GameObject _leftPopup;
 
     public static GameManager instance
     {
@@ -64,9 +69,35 @@ public class GameManager : MonoBehaviour {
 
 	void Start () 
 	{
-		gameState = GameState.Game;
+        InitPopups();
+		gameState = GameState.Wait;
         InitCheckpoints();
 	}
+
+    private void InitPopups()
+    {
+        _leftPopup = GameObject.Instantiate(popup);
+        _rightPopup = GameObject.Instantiate(popup);
+        _leftPopup.transform.parent = transform.parent;
+        _rightPopup.transform.parent = transform.parent;
+        Camera leftCamera = GameObject.Find("Left Camera").GetComponent<Camera>();
+        Camera rightCamera = GameObject.Find("Right Camera").GetComponent<Camera>();
+        _leftPopup.GetComponent<Canvas>().worldCamera = leftCamera;
+        _rightPopup.GetComponent<Canvas>().worldCamera = rightCamera;
+    }
+
+    /// <summary>
+    /// This function is called every fixed framerate frame, if the MonoBehaviour is enabled.
+    /// </summary>
+
+    private void ListenForAnyKey()
+    {
+        if(Input.anyKeyDown){
+            gameState = GameState.Game;
+            _rightPopup.SetActive(false);
+            _leftPopup.SetActive(false);
+        }
+    }
 
     void OnLevelWasLoaded()
     {
@@ -92,6 +123,14 @@ public class GameManager : MonoBehaviour {
     // Update is called once per frame
 	void Update () 
 	{
+        if(gameState == GameState.Wait) {
+            ListenForAnyKey();
+        }
+
+        if(gameState == GameState.Wait) {
+            _leftPopup.SetActive(true);
+            _rightPopup.SetActive(true);
+        }
 		if(scared && _timeToCalm <= Time.time)
 			CalmGhosts();
 
@@ -109,7 +148,7 @@ public class GameManager : MonoBehaviour {
     		ghost.InitializeGhost();
         }
 
-        gameState = GameState.Game;  
+        gameState = GameState.Wait;  
         // TODO: Show ready screen
         ResetCheckpoints();
 
