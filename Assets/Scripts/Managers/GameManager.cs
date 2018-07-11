@@ -130,17 +130,21 @@ public class GameManager : MonoBehaviour {
     // Update is called once per frame
 	void Update ()
 	{
-        if(gameState == GameState.Wait) {
-            ListenForAnyKey();
-        }
+    if(gameState == GameState.Wait) {
+      ListenForAnyKey();
+    }
 
-        if(gameState == GameState.Wait) {
-            _leftPopup.SetActive(true);
-            _rightPopup.SetActive(true);
-        }
-		if(scared && _timeToCalm <= Time.time)
-			CalmGhosts();
+    if(gameState == GameState.Wait) {
+      _leftPopup.SetActive(true);
+      _rightPopup.SetActive(true);
+    }
+    if(scared && _timeToCalm <= Time.time)
+      CalmGhosts();
 
+    // FIXME Ugly solution to loop theme music
+    if(!source.isPlaying()) {
+      source.PlayLvlTheme(Level);
+    }
 	}
 
   public void ResetScene()
@@ -225,6 +229,7 @@ public class GameManager : MonoBehaviour {
         }
         else{
             Debug.Log("Alla samlade!");
+            // TODO Play finish music
         }
     }
 

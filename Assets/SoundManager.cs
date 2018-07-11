@@ -35,4 +35,8 @@ public class SoundManager : MonoBehaviour {
   public void PlayLvlTheme(int nbr) {
     source.PlayOneShot(LvlTheme[nbr]);
   }
+
+  public bool isPlaying() {
+    return source.isPlaying;
+  }
 }
