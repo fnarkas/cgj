@@ -10,15 +10,15 @@ public class GameManager : MonoBehaviour {
     public static int Level = 0;
     public static int lives = 3;
 
-	public enum GameState { Init, Wait,Game, Dead, Scores }
-	public static GameState gameState;
+    public enum GameState { Init, Wait,Game, Dead, Scores }
+    public static GameState gameState;
 
     private GameObject pacman;
-    	public static bool scared;
+    public static bool scared;
     static public int score;
 
-	public float scareLength;
-	private float _timeToCalm;
+    public float scareLength;
+    private float _timeToCalm;
 
     public float SpeedPerLevel;
 
@@ -26,8 +26,10 @@ public class GameManager : MonoBehaviour {
     private List<GhostMove> ghosts;
     private int currentCheckpoint = 0;
 
+    private SoundManager source;
+
     public GameObject popup;
-    
+
     //-------------------------------------------------------------------
     // singleton implementation
     private static GameManager _instance;
@@ -61,19 +63,21 @@ public class GameManager : MonoBehaviour {
         }
         else
         {
-            if(this != _instance)   
+            if(this != _instance)
                 Destroy(this.gameObject);
         }
 
         AssignGhosts();
     }
 
-	void Start () 
+	void Start ()
 	{
         _heartController = GameObject.FindObjectOfType<HeartController>();
         InitPopups();
-		gameState = GameState.Wait;
+        gameState = GameState.Wait;
         InitCheckpoints();
+        source = GameObject.Find("Audio Source").GetComponent<SoundManager>();
+        OnLevelWasLoaded();
 	}
 
     private void InitPopups()
@@ -113,6 +117,9 @@ public class GameManager : MonoBehaviour {
             ghost.speed += Level * SpeedPerLevel;
         }
         pacman.GetComponent<PlayerController>().speed += Level*SpeedPerLevel/2;
+
+        // Play lvl music
+        source.PlayLvlTheme(Level);
     }
 
     private void ResetVariables()
@@ -123,38 +130,41 @@ public class GameManager : MonoBehaviour {
     }
 
     // Update is called once per frame
-	void Update () 
+	void Update ()
 	{
-        if(gameState == GameState.Wait) {
-            ListenForAnyKey();
-        }
+    if(gameState == GameState.Wait) {
+      ListenForAnyKey();
+    }
 
-        if(gameState == GameState.Wait) {
-            _leftPopup.SetActive(true);
-            _rightPopup.SetActive(true);
-        }
-		if(scared && _timeToCalm <= Time.time)
-			CalmGhosts();
+    if(gameState == GameState.Wait) {
+      _leftPopup.SetActive(true);
+      _rightPopup.SetActive(true);
+    }
+    if(scared && _timeToCalm <= Time.time)
+      CalmGhosts();
 
+    // FIXME Ugly solution to loop theme music
+    if(!source.isPlaying()) {
+      source.PlayLvlTheme(Level);
+    }
 	}
 
-	public void ResetScene()
-	{
-        CalmGhosts();
+  public void ResetScene()
+  {
+    CalmGhosts();
 
-		pacman.transform.position = new Vector3(15f, 11f, 0f);
+    pacman.transform.position = new Vector3(15f, 11f, 0f);
 
-		pacman.GetComponent<PlayerController>().ResetDestination();
-        foreach(var ghost in ghosts){
-            ghost.ResetPosition();
-    		ghost.InitializeGhost();
-        }
+    pacman.GetComponent<PlayerController>().ResetDestination();
+    foreach(var ghost in ghosts){
+      ghost.ResetPosition();
+      ghost.InitializeGhost();
+    }
 
-        gameState = GameState.Wait;  
-        // TODO: Show ready screen
-        ResetCheckpoints();
-
-	}
+    gameState = GameState.Wait;
+    // TODO: Show ready screen
+    ResetCheckpoints();
+  }
 
 	public void ToggleScare()
 	{
@@ -213,12 +223,15 @@ public class GameManager : MonoBehaviour {
     }
 
     public void NextCheckpoint(){
+        // Play checkpoint sound
+        source.PlayPickup(currentCheckpoint);
         currentCheckpoint++;
         if(currentCheckpoint < checkpoints.Count){
             checkpoints[currentCheckpoint].gameObject.SetActive(true);
         }
         else{
             Debug.Log("Alla samlade!");
+            // TODO Play finish music
         }
     }
 
