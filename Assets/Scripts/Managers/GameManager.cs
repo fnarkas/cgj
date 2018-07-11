@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
@@ -10,7 +11,7 @@ public class GameManager : MonoBehaviour {
     public static int Level = 0;
     public static int lives = 3;
 
-    public enum GameState { Init, Wait,Game, Dead, Scores }
+    public enum GameState { Init, Wait,Game, Dead, Scores, Loading }
     public static GameState gameState;
 
     private GameObject pacman;
@@ -25,6 +26,9 @@ public class GameManager : MonoBehaviour {
     private List<Checkpoint> checkpoints;
     private List<GhostMove> ghosts;
     private int currentCheckpoint = 0;
+
+    private string[] sceneNames = {"game", "pacmanLvl2", "pacmanLvl3"};
+    private int sceneCounter = 0;
 
     private SoundManager source;
 
@@ -58,8 +62,11 @@ public class GameManager : MonoBehaviour {
     {
         if (_instance == null)
         {
+          Debug.Log("I AM  AWAKE");
             _instance = this;
             DontDestroyOnLoad(this);
+            AssignGhosts();
+            Init();
         }
         else
         {
@@ -67,29 +74,40 @@ public class GameManager : MonoBehaviour {
                 Destroy(this.gameObject);
         }
 
-        AssignGhosts();
     }
 
-	void Start ()
+	//void Start ()
+	void Init ()
 	{
         _heartController = GameObject.FindObjectOfType<HeartController>();
         InitPopups();
         gameState = GameState.Wait;
         InitCheckpoints();
         source = GameObject.Find("Audio Source").GetComponent<SoundManager>();
-        OnLevelWasLoaded();
+        OnLevelLoaded();
 	}
 
     private void InitPopups()
     {
         _leftPopup = GameObject.Instantiate(popup);
         _rightPopup = GameObject.Instantiate(popup);
-        _leftPopup.transform.parent = transform.parent;
-        _rightPopup.transform.parent = transform.parent;
+        _leftPopup.transform.parent = transform;
+        _rightPopup.transform.parent = transform;
+        ChangeCameras();
+    }
+
+    private void ChangeCameras() {
+      Debug.Log("Changing cameras");
         Camera leftCamera = GameObject.Find("Left Camera").GetComponent<Camera>();
         Camera rightCamera = GameObject.Find("Right Camera").GetComponent<Camera>();
         _leftPopup.GetComponent<Canvas>().worldCamera = leftCamera;
         _rightPopup.GetComponent<Canvas>().worldCamera = rightCamera;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+      OnLevelLoaded();
+      ResetScene();
     }
 
     /// <summary>
@@ -105,7 +123,7 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    void OnLevelWasLoaded()
+    void OnLevelLoaded()
     {
         if (Level == 0) lives = 3;
 
@@ -119,7 +137,9 @@ public class GameManager : MonoBehaviour {
         pacman.GetComponent<PlayerController>().speed += Level*SpeedPerLevel/2;
 
         // Play lvl music
-        source.PlayLvlTheme(Level);
+        if(!source.isPlaying()) {
+          source.PlayLvlTheme(Level);
+        }
     }
 
     private void ResetVariables()
@@ -164,6 +184,8 @@ public class GameManager : MonoBehaviour {
     gameState = GameState.Wait;
     // TODO: Show ready screen
     ResetCheckpoints();
+    //InitPopups();
+    ChangeCameras();
   }
 
 	public void ToggleScare()
@@ -219,20 +241,32 @@ public class GameManager : MonoBehaviour {
             if(canvas)
                 canvas.gameObject.SetActive(false);
         }
-        checkpoints[0].gameObject.SetActive(true);
+        if (checkpoints.Count > 0) {
+          checkpoints[0].gameObject.SetActive(true);
+        }
     }
 
     public void NextCheckpoint(){
         // Play checkpoint sound
         source.PlayPickup(currentCheckpoint);
         currentCheckpoint++;
-        if(currentCheckpoint < checkpoints.Count){
-            checkpoints[currentCheckpoint].gameObject.SetActive(true);
-        }
-        else{
+      //  if(currentCheckpoint < checkpoints.Count){
+      //      checkpoints[currentCheckpoint].gameObject.SetActive(true);
+      //  }
+      //  else{
             Debug.Log("Alla samlade!");
             // TODO Play finish music
-        }
+            // TODO Show blackhole
+            // FIXME TODO Change scene
+            sceneCounter++;
+            if (sceneCounter > 2)
+              sceneCounter = 0;
+            gameState = GameState.Loading;
+            checkpoints = new List<Checkpoint>();
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            SceneManager.LoadScene(sceneNames[sceneCounter]);
+            //ResetScene();
+      //  }
     }
 
     public void LoseLife()
