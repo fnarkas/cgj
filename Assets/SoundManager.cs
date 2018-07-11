@@ -19,24 +19,30 @@ public class SoundManager : MonoBehaviour {
 	}
 
   void Awake () {
-    source = GameObject.Find("Audio Source").GetComponent<AudioSource>();
+  }
+
+  private AudioSource GetSource() {
+    if(source == null) {
+      source = GetComponent<AudioSource>();
+    }
+    return source;
   }
 
   public void PlayPickup(int nbr) {
 
-    source.PlayOneShot(PickUp[nbr]);
+    GetSource().PlayOneShot(PickUp[nbr]);
   }
 
   public void PlayDeath() {
 
-    source.PlayOneShot(Death);
+    GetSource().PlayOneShot(Death);
   }
 
   public void PlayLvlTheme(int nbr) {
-    source.PlayOneShot(LvlTheme[nbr]);
+    GetSource().PlayOneShot(LvlTheme[nbr]);
   }
 
   public bool isPlaying() {
-    return source.isPlaying;
+    return GetSource().isPlaying;
   }
 }

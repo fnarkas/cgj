@@ -6,14 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Scenes/menu.unity
+    path: 
     guid: 40dd9ee221b736047a07a07ee0dc3e5c
   - enabled: 1
-    path: Assets/Scenes/game.unity
+    path: Assets/StreamingAssets/Scenes/game.unity
     guid: 9e9224b41a251ad4aa4213392f1b76cc
   - enabled: 0
-    path: Assets/Scenes/scores.unity
+    path: 
     guid: 4c12986e248057440b5330fe60d951f0
   - enabled: 0
-    path: Assets/Scenes/credits.unity
+    path: 
     guid: eca5911d8e6773449abc08db79495f66
+  - enabled: 1
+    path: Assets/StreamingAssets/Scenes/pacmanLvl2.unity
+    guid: 3261acdea10db43458b32e5d469decf8
+  - enabled: 1
+    path: Assets/StreamingAssets/Scenes/pacmanLvl3.unity
+    guid: e834c0ed3fd1043a3aa1f472cd5d4b7b
