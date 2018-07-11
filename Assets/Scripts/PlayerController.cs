@@ -54,14 +54,23 @@ public class PlayerController : MonoBehaviour
            horizontalPlayer = "P1Horizontal"; 
            verticalPlayer = "P1Vertical"; 
     }
+    
 
+    void Update(){
+       if(GameManager.gameState == GameManager.GameState.Game){
+        if (Input.GetAxis(horizontalPlayer) > 0) _nextDir = Vector2.right;
+        if (Input.GetAxis(horizontalPlayer) < 0) _nextDir = -Vector2.right;
+        if (Input.GetAxis(verticalPlayer) > 0) _nextDir = Vector2.up;
+        if (Input.GetAxis(verticalPlayer) < 0) _nextDir = -Vector2.up;
+       } 
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
         switch (GameManager.gameState)
         {
             case GameManager.GameState.Game:
-                ReadInputAndMove();
+                Move();
                 Animate();
                 break;
 
@@ -146,21 +155,14 @@ public class PlayerController : MonoBehaviour
         GetComponent<Animator>().SetFloat("DirY", 0);
     }
 
-    void ReadInputAndMove()
+    void Move()
     {
         // move closer to destination
         Vector2 p = Vector2.MoveTowards(transform.position, _dest, speed);
         GetComponent<Rigidbody2D>().MovePosition(p);
 
-        String playerHorizontal = horizontalPlayer;
-        String playerVertical = verticalPlayer;
 
-        // get the next direction from keyboard
-        if (Input.GetAxis(playerHorizontal) > 0) _nextDir = Vector2.right;
-        if (Input.GetAxis(playerHorizontal) < 0) _nextDir = -Vector2.right;
-        if (Input.GetAxis(playerVertical) > 0) _nextDir = Vector2.up;
-        if (Input.GetAxis(playerVertical) < 0) _nextDir = -Vector2.up;
-
+        
         // if pacman is in the center of a tile
         if (Vector2.Distance(_dest, transform.position) < 0.00001f)
         {
