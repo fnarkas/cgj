@@ -11,13 +11,16 @@ public class SoundManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-    source = GameObject.Find("Audio Source").GetComponent<AudioSource>();
 	}
 
 	// Update is called once per frame
 	void Update () {
 
 	}
+
+  void Awake () {
+    source = GameObject.Find("Audio Source").GetComponent<AudioSource>();
+  }
 
   public void PlayPickup(int nbr) {
 
@@ -30,7 +33,6 @@ public class SoundManager : MonoBehaviour {
   }
 
   public void PlayLvlTheme(int nbr) {
-
     source.PlayOneShot(LvlTheme[nbr]);
   }
 }

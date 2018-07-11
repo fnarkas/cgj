@@ -40,7 +40,6 @@ public class PlayerController : MonoBehaviour
         _dest = transform.position;
         source = GameObject.Find("Audio Source").GetComponent<SoundManager>();
         RandomizePlayerControls();
-        source.PlayLvlTheme(0);
     }
 
     private void RandomizePlayerControls()
@@ -58,7 +57,7 @@ public class PlayerController : MonoBehaviour
            horizontalPlayer = "P1Horizontal";
            verticalPlayer = "P1Vertical";
     }
-    
+
 
     void Update(){
        if(GameManager.gameState == GameManager.GameState.Game){
@@ -66,7 +65,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetAxis(horizontalPlayer) < 0) _nextDir = -Vector2.right;
         if (Input.GetAxis(verticalPlayer) > 0) _nextDir = Vector2.up;
         if (Input.GetAxis(verticalPlayer) < 0) _nextDir = -Vector2.up;
-       } 
+       }
     }
     // Update is called once per frame
     void FixedUpdate()
@@ -168,7 +167,7 @@ public class PlayerController : MonoBehaviour
         GetComponent<Rigidbody2D>().MovePosition(p);
 
 
-        
+
         // if pacman is in the center of a tile
         if (Vector2.Distance(_dest, transform.position) < 0.00001f)
         {
