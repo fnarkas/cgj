@@ -25,8 +25,10 @@ public class PlayerController : MonoBehaviour
 
     private bool _deadPlaying = false;
 
-    String verticalPlayer = ""; 
-    String horizontalPlayer = ""; 
+    private SoundManager source;
+
+    String verticalPlayer = "";
+    String horizontalPlayer = "";
 
     AI _ai;
 
@@ -36,23 +38,25 @@ public class PlayerController : MonoBehaviour
         GM = GameObject.Find("Game Manager").GetComponent<GameManager>();
         _ai = GameObject.FindObjectOfType<AI>();
         _dest = transform.position;
+        source = GameObject.Find("Audio Source").GetComponent<SoundManager>();
         RandomizePlayerControls();
+        source.PlayLvlTheme(0);
     }
 
     private void RandomizePlayerControls()
     {
-        float rand = UnityEngine.Random.value;        
+        float rand = UnityEngine.Random.value;
         if(rand > 0.5){
-           horizontalPlayer = "P1Horizontal"; 
-           verticalPlayer = "P2Vertical"; 
+           horizontalPlayer = "P1Horizontal";
+           verticalPlayer = "P2Vertical";
            Debug.Log("1 is Horizontal 2 is Vertival");
         } else {
-           horizontalPlayer = "P2Horizontal"; 
-           verticalPlayer = "P1Vertical"; 
+           horizontalPlayer = "P2Horizontal";
+           verticalPlayer = "P1Vertical";
            Debug.Log("1 is Vertival 2 is Horizontal");
         }
-           horizontalPlayer = "P1Horizontal"; 
-           verticalPlayer = "P1Vertical"; 
+           horizontalPlayer = "P1Horizontal";
+           verticalPlayer = "P1Vertical";
     }
     
 
@@ -87,6 +91,8 @@ public class PlayerController : MonoBehaviour
     {
         _deadPlaying = true;
         GetComponent<Animator>().SetBool("Die", true);
+        // Play death tune
+        source.PlayDeath();
         yield return new WaitForSeconds(1);
         GetComponent<Animator>().SetBool("Die", false);
         _deadPlaying = false;
