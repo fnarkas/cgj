@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour {
     private static GameManager _instance;
     private GameObject _rightPopup;
     private GameObject _leftPopup;
+    private HeartController _heartController;
 
     public static GameManager instance
     {
@@ -69,6 +70,7 @@ public class GameManager : MonoBehaviour {
 
 	void Start () 
 	{
+        _heartController = GameObject.FindObjectOfType<HeartController>();
         InitPopups();
 		gameState = GameState.Wait;
         InitCheckpoints();
@@ -223,8 +225,10 @@ public class GameManager : MonoBehaviour {
     public void LoseLife()
     {
         lives--;
+        _heartController.SetLives(lives);
         gameState = GameState.Dead;
     }
+
 
     public static void DestroySelf()
     {
