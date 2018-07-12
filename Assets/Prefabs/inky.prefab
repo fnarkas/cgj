@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5094802}
   - component: {fileID: 11494802}
   - component: {fileID: 11494804}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: inky
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 194802}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 16.5, y: 17, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -68,7 +68,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 0.5
 --- !u!95 &9594802
 Animator:
   serializedVersion: 3
@@ -101,7 +101,6 @@ MonoBehaviour:
   speed: 0.15
   scatterLength: 2
   waitLength: 1
-  GUINav: {fileID: 0}
   pacman: {fileID: 0}
   DISTANCE: 0
 --- !u!114 &11494804
@@ -117,6 +116,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   ghost: {fileID: 11494802}
+  nextTile: {x: 0, y: 0, z: 0}
+  targetTile: {x: 0, y: 0, z: 0}
+  TileMap: {fileID: 0}
+  redTile: {fileID: 0}
 --- !u!212 &21294802
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -151,7 +154,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300276, guid: 7bb59983fc1f4ac43a729c04d0a0e71b, type: 3}
+  m_Sprite: {fileID: 21300012, guid: adb63da6fb6cf43acbd7294a1793f884, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
