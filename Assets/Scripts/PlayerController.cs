@@ -32,6 +32,13 @@ public class PlayerController : MonoBehaviour
 
     AI _ai;
 
+    void Awake()
+    {
+        // Use Awake to skip race condition with GameManager
+        // who also tries to set this value
+        RandomizePlayerControls(false);
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -39,25 +46,27 @@ public class PlayerController : MonoBehaviour
         _ai = GameObject.FindObjectOfType<AI>();
         _dest = transform.position;
         source = GameObject.Find("Audio Source").GetComponent<SoundManager>();
-        RandomizePlayerControls();
     }
 
-    private void RandomizePlayerControls()
+    public void RandomizePlayerControls(bool randomize = true)
     {
+      if (randomize) {
         float rand = UnityEngine.Random.value;
         if(rand > 0.5){
-           horizontalPlayer = "P1Horizontal";
-           verticalPlayer = "P2Vertical";
-           Debug.Log("1 is Horizontal 2 is Vertival");
+          horizontalPlayer = "P1Horizontal";
+          verticalPlayer = "P2Vertical";
+          Debug.Log("1 is Horizontal 2 is Vertival");
         } else {
-           horizontalPlayer = "P2Horizontal";
-           verticalPlayer = "P1Vertical";
-           Debug.Log("1 is Vertival 2 is Horizontal");
+          horizontalPlayer = "P2Horizontal";
+          verticalPlayer = "P1Vertical";
+          Debug.Log("1 is Vertival 2 is Horizontal");
         }
-           horizontalPlayer = "P1Horizontal";
-           verticalPlayer = "P1Vertical";
+      } else {
+        Debug.Log("Player 1 has all controls");
+        horizontalPlayer = "P1Horizontal";
+        verticalPlayer = "P1Vertical";
+      }
     }
-
 
     void Update(){
        if(GameManager.gameState == GameManager.GameState.Game){
