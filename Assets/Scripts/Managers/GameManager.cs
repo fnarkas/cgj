@@ -69,7 +69,6 @@ public class GameManager : MonoBehaviour {
           Debug.Log("I AM  AWAKE");
             _instance = this;
             DontDestroyOnLoad(this);
-            AssignGhosts();
             Init();
         }
         else

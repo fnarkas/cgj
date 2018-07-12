@@ -24,7 +24,7 @@ public class AI : MonoBehaviour {
 	void Awake()
 	{
 		if(ghost == null)	Debug.Log ("game object ghost not found");
-		gridLayout = TileMap.GetComponentInParent<GridLayout>();
+		target = GameObject.Find("pacman").transform;
 	}
 
 	private bool IsIntersection(Vector3 pos){
@@ -42,6 +42,8 @@ public class AI : MonoBehaviour {
 	public bool IsWallDown(Vector3 pos){
 		if (pos == null)
 			return false;
+		if(gridLayout == null)
+			gridLayout = TileMap.GetComponentInParent<GridLayout>();
 		Vector3 nextWorldPos = pos + Vector3.down * RADIUS;
 		Vector3 nextWorldPos1 = nextWorldPos + Vector3.left * COLLISION_FRACTION;
 		Vector3 nextWorldPos2 = nextWorldPos + Vector3.right * COLLISION_FRACTION;
@@ -56,6 +58,8 @@ public class AI : MonoBehaviour {
 	public bool IsWallUp(Vector3 pos){
 		if (pos == null)
 			return false;
+		if(gridLayout == null)
+			gridLayout = TileMap.GetComponentInParent<GridLayout>();
 		Vector3 nextWorldPos = pos + Vector3.up * RADIUS;
 		Vector3 nextWorldPos1 = nextWorldPos + Vector3.left * COLLISION_FRACTION;
 		Vector3 nextWorldPos2 = nextWorldPos + Vector3.right * COLLISION_FRACTION;
@@ -75,6 +79,9 @@ public class AI : MonoBehaviour {
 	public bool IsWallLeft(Vector3 pos){
 		if (pos == null)
 			return false;
+		if(gridLayout == null)
+			gridLayout = TileMap.GetComponentInParent<GridLayout>();
+		
 		Vector3 nextWorldPos = pos + Vector3.left * RADIUS;
 		Vector3 nextWorldPos1 = nextWorldPos + Vector3.up * COLLISION_FRACTION;
 		Vector3 nextWorldPos2 = nextWorldPos + Vector3.down * COLLISION_FRACTION;
@@ -89,6 +96,8 @@ public class AI : MonoBehaviour {
 	public bool IsWallRight(Vector3 pos){
 		if (pos == null)
 			return false;
+		if(gridLayout == null)
+			gridLayout = TileMap.GetComponentInParent<GridLayout>();
 		Vector3 nextWorldPos = pos + Vector3.right * RADIUS;
 		Vector3 nextWorldPos1 = nextWorldPos + Vector3.up * COLLISION_FRACTION;
 		Vector3 nextWorldPos2 = nextWorldPos + Vector3.down * COLLISION_FRACTION;
