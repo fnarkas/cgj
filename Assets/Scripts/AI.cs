@@ -51,8 +51,8 @@ public class AI : MonoBehaviour {
 		Vector3Int down2 = gridLayout.WorldToCell(nextWorldPos2);
 		TileBase tile1 = TileMap.GetTile(down1);
 		TileBase tile2 = TileMap.GetTile(down2);
-	//	TileMap.SetTile(down1, redTile);	
-	//	TileMap.SetTile(down2, redTile);	
+	//	TileMap.SetTile(down1, redTile);
+	//	TileMap.SetTile(down2, redTile);
 		return tile1 != null || tile2 != null;
 	}
 	public bool IsWallUp(Vector3 pos){
@@ -67,12 +67,12 @@ public class AI : MonoBehaviour {
 		Vector3Int up2 = gridLayout.WorldToCell(nextWorldPos2);
 		TileBase tile1 = TileMap.GetTile(up1);
 		TileBase tile2 = TileMap.GetTile(up2);
-	//	TileMap.SetTile(up1, redTile);	
-	//	TileMap.SetTile(up2, redTile);	
+	//	TileMap.SetTile(up1, redTile);
+	//	TileMap.SetTile(up2, redTile);
 		return tile1 != null || tile2 != null;
 	}
 	private bool IsWall(TileBase tile){
-		if(tile == null)	
+		if(tile == null)
 			return false;
 		return tile.name != DEBUG_TILE;
 	}
@@ -81,7 +81,7 @@ public class AI : MonoBehaviour {
 			return false;
 		if(gridLayout == null)
 			gridLayout = TileMap.GetComponentInParent<GridLayout>();
-		
+
 		Vector3 nextWorldPos = pos + Vector3.left * RADIUS;
 		Vector3 nextWorldPos1 = nextWorldPos + Vector3.up * COLLISION_FRACTION;
 		Vector3 nextWorldPos2 = nextWorldPos + Vector3.down * COLLISION_FRACTION;
@@ -89,8 +89,8 @@ public class AI : MonoBehaviour {
 		Vector3Int left2 = gridLayout.WorldToCell(nextWorldPos2);
 		TileBase tile1 = TileMap.GetTile(left1);
 		TileBase tile2 = TileMap.GetTile(left2);
-		// TileMap.SetTile(left1, redTile);	
-		// TileMap.SetTile(left2, redTile);	
+		// TileMap.SetTile(left1, redTile);
+		// TileMap.SetTile(left2, redTile);
 		return 	IsWall(tile1) || IsWall(tile2);
 		}
 	public bool IsWallRight(Vector3 pos){
@@ -105,8 +105,8 @@ public class AI : MonoBehaviour {
 		Vector3Int right2 = gridLayout.WorldToCell(nextWorldPos2);
 		TileBase tile1 = TileMap.GetTile(right1);
 		TileBase tile2 = TileMap.GetTile(right2);
-	//	TileMap.SetTile(right1, redTile);	
-	//	TileMap.SetTile(right2, redTile);	
+	//	TileMap.SetTile(right1, redTile);
+	//	TileMap.SetTile(right2, redTile);
 		return tile1 != null || tile2 != null;
 	}
 
@@ -144,16 +144,18 @@ public class AI : MonoBehaviour {
 		// get current tile
 		//Vector3 currentPos = new Vector3(transform.position.x + 0.499f, transform.position.y + 0.499f);
 		Vector3 currentPos = new Vector3(transform.position.x, transform.position.y);
+		if(gridLayout == null)
+			gridLayout = TileMap.GetComponentInParent<GridLayout>();
 		Vector3Int tilePos = gridLayout.WorldToCell(currentPos);
 		currentTile = tilePos;
 		Vector3Int nextPos = Vector3Int.zero;
 
-		Vector3 nextWorldPos = Vector3.zero;		
+		Vector3 nextWorldPos = Vector3.zero;
 		// get the next tile according to direction
 		if(ghost.direction.x > 0){
 			nextWorldPos = currentPos + Vector3.right * RADIUS;
 			nextPos = gridLayout.WorldToCell(nextWorldPos);
-		}	
+		}
 		if(ghost.direction.x < 0){
 			nextWorldPos = currentPos + Vector3.left * RADIUS;
 			nextPos = gridLayout.WorldToCell(nextWorldPos);
@@ -165,9 +167,9 @@ public class AI : MonoBehaviour {
 		if(ghost.direction.y < 0){
 			nextWorldPos = currentPos + Vector3.down * RADIUS;
 			nextPos = gridLayout.WorldToCell(nextWorldPos);
-		}	
+		}
 		Debug.DrawLine(currentPos, nextWorldPos);
-		//TileMap.SetTile(nextPos, redTile);	
+		//TileMap.SetTile(nextPos, redTile);
 		if(IsWall(nextPos) || IsIntersection(currentPos))
 		{
 			//---------------------
@@ -179,19 +181,19 @@ public class AI : MonoBehaviour {
 				{
 					if(IsWallDown(currentPos))	ghost.direction = Vector3.up;
 					else 							ghost.direction = Vector3.down;
-					
+
 				}
-				
+
 				// if ghost moves to up or down and there is wall next tile
 				else if(ghost.direction.y != 0)
 				{
-					if(IsWallLeft(currentPos))	ghost.direction = Vector3.right; 
+					if(IsWallLeft(currentPos))	ghost.direction = Vector3.right;
 					else 							ghost.direction = Vector3.left;
-					
+
 				}
-				
+
 			}
-			
+
 			//---------------------------------------------------------------------------------------
 			// IF WE ARE AT INTERSECTION
 			// calculate the distance to target from each available tile and choose the shortest one
@@ -203,17 +205,17 @@ public class AI : MonoBehaviour {
 				if(!IsWallDown(currentPos) &&  !(ghost.direction.y > 0)) 	dist2 = distance(targetTile, new Vector3Int(tilePos.x, tilePos.y-1, tilePos.z));
 				if(!IsWallLeft(currentPos) && !(ghost.direction.x > 0)) 	dist3 = distance(targetTile, new Vector3Int(tilePos.x-1, tilePos.y, tilePos.z));
 				if(!IsWallRight(currentPos) && !(ghost.direction.x < 0))	dist4 = distance(targetTile, new Vector3Int(tilePos.x+1, tilePos.y, tilePos.z));
-				
+
 				float min = Mathf.Min(dist1, dist2, dist3, dist4);
 				if(min == dist1) ghost.direction = Vector3.up;
 				if(min == dist2) ghost.direction = Vector3.down;
 				if(min == dist3) ghost.direction = Vector3.left;
 				if(min == dist4) ghost.direction = Vector3.right;
-				
+
 			}
-			
+
 		}
-		
+
 		// if there is no decision to be made, designate next waypoint for the ghost
 		else
 		{
@@ -238,7 +240,7 @@ public class AI : MonoBehaviour {
 		// get the next tile according to direction
 		if(ghost.direction.x > 0){
 			nextPos = new Vector3Int(tilePos.x + 1, tilePos.y, tilePos.z);
-		}	
+		}
 		if(ghost.direction.x < 0){
 			nextPos =new Vector3Int(tilePos.x - 1, tilePos.y, tilePos.z);
 		}
@@ -247,7 +249,7 @@ public class AI : MonoBehaviour {
 		}
 		if(ghost.direction.y < 0){
 			nextPos = new Vector3Int(tilePos.x, tilePos.y-1, tilePos.z);
-		}	
+		}
 		//Debug.Log (ghost.direction.x + " " + ghost.direction.y);
 		//Debug.Log (ghost.name + ": Next Tile (" + nextTile.x + ", " + nextTile.y + ")" );
 
@@ -262,19 +264,19 @@ public class AI : MonoBehaviour {
 				{
 					if(IsWallDown(currentPos))	ghost.direction = Vector3.up;
 					else 							ghost.direction = Vector3.down;
-					
+
 				}
-				
+
 				// if ghost moves to up or down and there is wall next tile
 				else if(ghost.direction.y != 0)
 				{
-					if(IsWallLeft(currentPos))	ghost.direction = Vector3.right; 
+					if(IsWallLeft(currentPos))	ghost.direction = Vector3.right;
 					else 							ghost.direction = Vector3.left;
-					
+
 				}
-				
+
 			}
-			
+
 			//---------------------------------------------------------------------------------------
 			// IF WE ARE AT INTERSECTION
 			// choose one available option at random
@@ -293,9 +295,9 @@ public class AI : MonoBehaviour {
 				ghost.direction = Vector3.Normalize(new Vector3(chosenTile.x - tilePos.x, chosenTile.y - tilePos.y, 0));
 				//Debug.Log (ghost.name + ": Chosen Tile (" + chosenTile.x + ", " + chosenTile.y + ")" );
 			}
-			
+
 		}
-		
+
 		// if there is no decision to be made, designate next waypoint for the ghost
 		else
 		{
@@ -341,7 +343,7 @@ public class AI : MonoBehaviour {
 		default:
 			targetTile = Vector3Int.zero;
 			break;
-		
+
 		}
 		return targetTile;
 	}
