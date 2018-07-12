@@ -142,6 +142,8 @@ public class GameManager : MonoBehaviour {
         }
         pacman.GetComponent<PlayerController>().speed = 0.2f + Level * SpeedPerLevel;
         Debug.Log("Pacman speed "+pacman.GetComponent<PlayerController>().speed);
+        // TODO FIXME get more lvl start music
+        source.PlayLvlStartTheme(0);
     }
 
     private void ResetVariables()
