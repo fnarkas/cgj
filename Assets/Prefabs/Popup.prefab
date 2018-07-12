@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4853234629476002}
   - component: {fileID: 212386432569700822}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: keyboard_key_left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4380588974985498}
   - component: {fileID: 212289556209806560}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: keyboard_key_down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,7 +69,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4241389547984982}
   - component: {fileID: 212881262549436138}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: keyboard_key_up
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,7 +84,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224750991316888658}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: left_info
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134,7 +134,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4452101476024264}
   - component: {fileID: 212149624067629562}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: keyboard_key_a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -150,7 +150,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4778019748063208}
   - component: {fileID: 212391532428650910}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: keyboard_key_d
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -165,7 +165,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224900116894974770}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: right_info
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,7 +181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4181245100732656}
   - component: {fileID: 212532239576062306}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: keyboard_key_right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -264,7 +264,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4742047319099334}
   - component: {fileID: 212015174571401950}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: keyboard_key_s
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -280,7 +280,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4609961684085214}
   - component: {fileID: 212872067535700820}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: keyboard_key_w
   m_TagString: Untagged
   m_Icon: {fileID: 0}

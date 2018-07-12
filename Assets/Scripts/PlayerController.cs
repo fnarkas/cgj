@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     String horizontalPlayer = "";
 
     AI _ai;
+    public enum Controls { LeftAll, RightAll, LeftHorizontal, LeftVertical }
 
     void Awake()
     {
@@ -48,24 +49,26 @@ public class PlayerController : MonoBehaviour
         source = GameObject.Find("Audio Source").GetComponent<SoundManager>();
     }
 
-    public void RandomizePlayerControls(bool randomize = true)
+    public Controls RandomizePlayerControls(bool randomize = true)
     {
+        Controls controls;
       if (randomize) {
         float rand = UnityEngine.Random.value;
         if(rand > 0.5){
           horizontalPlayer = "P1Horizontal";
           verticalPlayer = "P2Vertical";
-          Debug.Log("1 is Horizontal 2 is Vertival");
+          controls = Controls.LeftVertical;
         } else {
           horizontalPlayer = "P2Horizontal";
           verticalPlayer = "P1Vertical";
-          Debug.Log("1 is Vertival 2 is Horizontal");
+          controls = Controls.LeftHorizontal;
         }
       } else {
-        Debug.Log("Player 1 has all controls");
         horizontalPlayer = "P1Horizontal";
         verticalPlayer = "P1Vertical";
+        controls = Controls.LeftAll;
       }
+      return controls;
     }
 
     void Update(){

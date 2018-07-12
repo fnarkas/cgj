@@ -135,6 +135,7 @@ public class GameManager : MonoBehaviour
     void OnLevelLoaded()
     {
         AssignGhosts();
+        AssignControls();
         FindFreeTiles();
         InitCheckpoints();
         if (Level == 0) lives = 3;
@@ -148,12 +149,34 @@ public class GameManager : MonoBehaviour
         }
         pacman.GetComponent<PlayerController>().speed = 0.2f + Level * SpeedPerLevel;
 
-        // TODO FIXME When to perform random controls?
-        // Random controls
-        pacman.GetComponent<PlayerController>().RandomizePlayerControls();
 
         // TODO FIXME get more lvl start music
         source.PlayLvlStartTheme(0);
+    }
+
+    private void AssignControls()
+    {
+        PlayerController.Controls controls = FindObjectOfType<PlayerController>().RandomizePlayerControls(true);
+        PopupController popupControllerLeft = _leftPopup.GetComponent<PopupController>();
+        PopupController popupControllerRight = _rightPopup.GetComponent<PopupController>();
+        switch(controls){
+            case PlayerController.Controls.LeftAll:
+                popupControllerLeft.ShowAllLeft();
+                popupControllerRight.ShowNone();
+            break;
+            case PlayerController.Controls.LeftHorizontal:
+                popupControllerLeft.ShowHorizontalLeft();
+                popupControllerRight.ShowVerticalRight();
+            break;
+            case PlayerController.Controls.LeftVertical:
+                popupControllerLeft.ShowVerticalLeft();
+                popupControllerRight.ShowHorizontalRight();
+            break;
+            case PlayerController.Controls.RightAll:
+                popupControllerLeft.ShowNone();
+                popupControllerRight.ShowAllRight();
+            break;
+        }
     }
 
     private void ResetVariables()
@@ -247,7 +270,7 @@ public class GameManager : MonoBehaviour
         List<GameObject> rightGhosts = new List<GameObject>();
         foreach (var ghost in ghosts)
         {
-            GameObject ghostObject = GameObject.Find(ghost.name);
+            GameObject ghostObject = ghost.gameObject;
             if (ghost.name == "blinky")
             {
                 // blinky is always activated
@@ -265,7 +288,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log("Disable ghost: " + ghost.name);
                 ghostObject.SetActive(false);
             }
-            if (ghostObject.active)
+            if (ghostObject.activeSelf)
             {
                 if (ghostObject.layer == SCREEN1)
                 {
