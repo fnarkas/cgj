@@ -33,7 +33,8 @@ public class GameManager : MonoBehaviour
 
     private static int nbrActiveGhosts = 1;
 
-    private SoundManager source;
+    private SoundManager sourceEffect;
+    private SoundManagerMusic sourceMusic;
 
     public GameObject popup;
 
@@ -91,7 +92,8 @@ public class GameManager : MonoBehaviour
         _heartController = GameObject.FindObjectOfType<HeartController>();
         InitPopups();
         gameState = GameState.Wait;
-        source = GameObject.Find("Audio Source").GetComponent<SoundManager>();
+        sourceEffect = GameObject.Find("Audio Source Effects").GetComponent<SoundManager>();
+        sourceMusic = GameObject.Find("Audio Source Music").GetComponent<SoundManagerMusic>();
     }
 
     private void InitPopups()
@@ -150,7 +152,7 @@ public class GameManager : MonoBehaviour
 
 
         // TODO FIXME get more lvl start music
-        source.PlayLvlStartTheme(0);
+        sourceMusic.PlayLvlStartTheme(0);
     }
 
     private void AssignControls()
@@ -202,11 +204,11 @@ public class GameManager : MonoBehaviour
             CalmGhosts();
 
         // Play lvl music
-        if (!source.isPlaying())
+        if (!sourceMusic.isPlaying() && !sourceEffect.isPlaying())
         {
             // TODO FIXME Add more songs
             //source.PlayLvlTheme(Level);
-            source.PlayLvlTheme(0);
+            sourceMusic.PlayLvlTheme(0);
         }
     }
 
@@ -346,7 +348,7 @@ public class GameManager : MonoBehaviour
     public void NextCheckpoint()
     {
         // Play checkpoint sound
-        source.PlayPickup(currentCheckpoint);
+        sourceEffect.PlayPickup(currentCheckpoint);
         currentCheckpoint++;
         if (currentCheckpoint < checkpoints.Count)
         {

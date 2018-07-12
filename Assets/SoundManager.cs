@@ -6,8 +6,6 @@ public class SoundManager : MonoBehaviour {
 
   private AudioSource source;
   public AudioClip[] PickUp;
-  public AudioClip[] LvlTheme;
-  public AudioClip[] LvlStartTheme;
   public AudioClip Death;
 	// Use this for initialization
 	void Start () {
@@ -24,7 +22,8 @@ public class SoundManager : MonoBehaviour {
 
   private AudioSource GetSource() {
     if(source == null) {
-      source = GetComponent<AudioSource>();
+      //source = GetComponent<AudioSource>();
+      source = GameObject.Find("Audio Source Effects").GetComponent<AudioSource>();
     }
     return source;
   }
@@ -35,17 +34,8 @@ public class SoundManager : MonoBehaviour {
   }
 
   public void PlayDeath() {
-
+    GetSource().Stop();
     GetSource().PlayOneShot(Death);
-  }
-
-  public void PlayLvlTheme(int nbr) {
-    GetSource().PlayOneShot(LvlTheme[nbr]);
-  }
-
-  public void PlayLvlStartTheme(int nbr) {
-    GetSource().Stop(); // Fix issue when changing level and double music
-    GetSource().PlayOneShot(LvlStartTheme[nbr]);
   }
 
   public bool isPlaying() {
