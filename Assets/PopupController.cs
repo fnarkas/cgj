@@ -20,13 +20,16 @@ public class PopupController : MonoBehaviour {
 		int i =0;
 		foreach(var ghost in ghosts){
 			ghost.SetActive(false);
+			// Debug.Log("Ghost: " + ghost.name);
 			foreach(var g in list){
+			// Debug.Log("g: " + g.name);
 				if(g.name == ghost.name){
-				if(i < n)
+				if(i < n){
 					ghost.SetActive(true);
+					i++;
+					}
 				}
-			}
-			i++;
+							}
 		}
 	}	
 

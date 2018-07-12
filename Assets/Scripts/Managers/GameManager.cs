@@ -139,7 +139,6 @@ public class GameManager : MonoBehaviour
         FindFreeTiles();
         InitCheckpoints();
         if (Level == 0) lives = 3;
-
         Debug.Log("Level " + Level + " Loaded!");
         ResetVariables();
 
