@@ -14,10 +14,18 @@ public class PopupController : MonoBehaviour {
 
 	public GameObject[] ghosts;
 
+	public GameObject nothing;
+
 
 	public void ShowGhosts(List<GameObject> list){
 		int n = list.Count;
 		int i =0;
+		if(list.Count == 0){
+			nothing.SetActive(true);
+		}else{
+			nothing.SetActive(false);
+		}
+
 		foreach(var ghost in ghosts){
 			ghost.SetActive(false);
 			// Debug.Log("Ghost: " + ghost.name);
