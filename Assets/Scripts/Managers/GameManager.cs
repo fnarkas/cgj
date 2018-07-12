@@ -50,6 +50,8 @@ public class GameManager : MonoBehaviour
     private const int SCREEN1 = 10;
     private const int SCREEN2 = 11;
 
+    public GameObject particleSystem;
+
 
     public static GameManager instance
     {
@@ -349,6 +351,8 @@ public class GameManager : MonoBehaviour
     {
         // Play checkpoint sound
         sourceEffect.PlayPickup(currentCheckpoint);
+        particleSystem.transform.position = checkpoints[currentCheckpoint].transform.position;
+        particleSystem.GetComponent<ParticleSystem>().Play();
         currentCheckpoint++;
         if (currentCheckpoint < checkpoints.Count)
         {
