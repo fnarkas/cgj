@@ -94,11 +94,16 @@ public class GhostMove : MonoBehaviour {
 
 	public void InitializeGhost()
 	{
+		if(_startPos == Vector3.zero)
+			_startPos = transform.position;
+		
 		InitializeGhost(_startPos);
 
 	}
 
 	public void ResetPosition(){
+		if(_startPos == Vector3.zero)
+			_startPos = transform.position;
 		transform.position = _startPos;
 	}
 
