@@ -86,8 +86,6 @@ public class GameManager : MonoBehaviour {
         _heartController = GameObject.FindObjectOfType<HeartController>();
         InitPopups();
         gameState = GameState.Wait;
-        FindFreeTiles();
-        InitCheckpoints();
         source = GameObject.Find("Audio Source").GetComponent<SoundManager>();
         OnLevelLoaded();
 	}
@@ -130,10 +128,12 @@ public class GameManager : MonoBehaviour {
 
     void OnLevelLoaded()
     {
+        AssignGhosts();
+        FindFreeTiles();
+        InitCheckpoints();
         if (Level == 0) lives = 3;
 
         Debug.Log("Level " + Level + " Loaded!");
-        AssignGhosts();
         ResetVariables();
 
         foreach(var ghost in ghosts){
