@@ -116,7 +116,7 @@ public class PlayerController : MonoBehaviour
         }else if(dir.x < 0.0f){
             scale.x = Math.Abs(scale.x);
         }
-        transform.localScale = scale; 
+        transform.localScale = scale;
     }
 
     bool Valid(Vector2 direction)

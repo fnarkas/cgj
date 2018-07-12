@@ -22,14 +22,13 @@ public class GameManager : MonoBehaviour {
     public float scareLength;
     private float _timeToCalm;
 
-    public float SpeedPerLevel;
+    public float SpeedPerLevel = 0.05f;
 
     private List<Checkpoint> checkpoints;
     private List<GhostMove> ghosts;
     private int currentCheckpoint = 0;
 
     private string[] sceneNames = {"game", "pacmanLvl2", "pacmanLvl3"};
-    private int sceneCounter = 0;
 
     private static int nbrActiveGhosts = 1;
 
@@ -138,14 +137,11 @@ public class GameManager : MonoBehaviour {
         ResetVariables();
 
         foreach(var ghost in ghosts){
-            ghost.speed += Level * SpeedPerLevel;
+            ghost.speed = 0.13f + Level * SpeedPerLevel;
+            Debug.Log(ghost.name+ ": speed " +ghost.speed);
         }
-        pacman.GetComponent<PlayerController>().speed += Level*SpeedPerLevel/2;
-
-        // Play lvl music
-        if(!source.isPlaying()) {
-          source.PlayLvlTheme(Level);
-        }
+        pacman.GetComponent<PlayerController>().speed = 0.2f + Level * SpeedPerLevel;
+        Debug.Log("Pacman speed "+pacman.GetComponent<PlayerController>().speed);
     }
 
     private void ResetVariables()
@@ -169,9 +165,11 @@ public class GameManager : MonoBehaviour {
     if(scared && _timeToCalm <= Time.time)
       CalmGhosts();
 
-    // FIXME Ugly solution to loop theme music
+    // Play lvl music
     if(!source.isPlaying()) {
-      source.PlayLvlTheme(Level);
+      // TODO FIXME Add more songs
+      //source.PlayLvlTheme(Level);
+      source.PlayLvlTheme(0);
     }
 	}
 
@@ -230,7 +228,7 @@ public class GameManager : MonoBehaviour {
         foreach(var ghost in ghosts) {
           GameObject ghostObject = GameObject.Find(ghost.name);
           if (ghost.name == "blinky") {
-            // binky is always activated
+            // blinky is always activated
             ghostObject.SetActive(true);
             Debug.Log("Enable ghost: " + ghost.name);
           } else if (nbrActiveGhosts > ghostCounter) {
@@ -288,16 +286,17 @@ public class GameManager : MonoBehaviour {
             Debug.Log("Alla samlade!");
             // TODO Play finish music
             // TODO Show blackhole
-            sceneCounter++;
-            if (sceneCounter > 2) {
-              sceneCounter = 0;
-              // TODO Increase difficulty. Randomly assign different increases;
-              // either increased control difficulty or more monsters
-              nbrActiveGhosts++;
-            }
             gameState = GameState.Loading;
             checkpoints = new List<Checkpoint>();
-            SceneManager.LoadScene(sceneNames[sceneCounter]);
+
+            // Update level, go back to zero if we are at end
+            Level++;
+            if (Level > 2) {
+              Level = 0;
+              nbrActiveGhosts++;
+            }
+
+            SceneManager.LoadScene(sceneNames[Level]);
             ResetScene();
        }
     }
@@ -352,7 +351,6 @@ public class GameManager : MonoBehaviour {
     {
 
         score = 0;
-        Level = 0;
         lives = 3;
         Destroy(GameObject.Find("Game Manager"));
     }

@@ -12,7 +12,7 @@ public class GhostMove : MonoBehaviour {
 
 	// direction is set from the AI component
 	public Vector3 _direction;
-	public Vector3 direction 
+	public Vector3 direction
 	{
 		get
 		{
@@ -55,7 +55,7 @@ public class GhostMove : MonoBehaviour {
 	void Start()
 	{
 	    _gm = GameObject.Find("Game Manager").GetComponent<GameManager>();
-        _toggleInterval = _gm.scareLength * 0.33f * 0.20f;  
+        _toggleInterval = _gm.scareLength * 0.33f * 0.20f;
 	    _startPos = transform.position;
 		InitializeGhost();
 	}
@@ -64,12 +64,9 @@ public class GhostMove : MonoBehaviour {
 
 	void FixedUpdate ()
 	{
-	    DISTANCE = Vector3.Distance(transform.position, waypoint);
-		count++;
-		// if( count % 30 != 0)
-		// return;
+    DISTANCE = Vector3.Distance(transform.position, waypoint);
 
-		if(GameManager.gameState == GameManager.GameState.Game){
+    if(GameManager.gameState == GameManager.GameState.Game){
 			animate ();
 
 			switch(state)
@@ -96,7 +93,7 @@ public class GhostMove : MonoBehaviour {
 	{
 		if(_startPos == Vector3.zero)
 			_startPos = transform.position;
-		
+
 		InitializeGhost(_startPos);
 
 	}
@@ -112,10 +109,10 @@ public class GhostMove : MonoBehaviour {
         transform.position = pos;
         waypoint = transform.position;	// to avoid flickering animation
         state = State.Chase;
-		direction = Vector3.right;		
+		direction = Vector3.right;
     }
-	
-   
+
+
 	//------------------------------------------------------------------------------------
 	// Update functions
 	void animate()
@@ -137,7 +134,7 @@ public class GhostMove : MonoBehaviour {
 		        InitializeGhost(_startPos);
                 pacman.UpdateScore();
 		    }
-		       
+
 		    else
 		    {
 		        _gm.LoseLife();
@@ -196,7 +193,7 @@ public class GhostMove : MonoBehaviour {
 			Vector2 p = Vector2.MoveTowards(transform.position, waypoint, speed);
 			GetComponent<Rigidbody2D>().MovePosition(p);
 		}
-		
+
 		// if at waypoint, run AI run away logic
 		else GetComponent<AI>().RunLogic();
 
