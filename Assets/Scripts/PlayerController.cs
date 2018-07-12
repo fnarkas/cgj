@@ -25,7 +25,8 @@ public class PlayerController : MonoBehaviour
 
     private bool _deadPlaying = false;
 
-    private SoundManager source;
+    private SoundManager sourceEffects;
+    private SoundManagerMusic sourceMusic;
 
     String verticalPlayer = "";
     String horizontalPlayer = "";
@@ -45,7 +46,8 @@ public class PlayerController : MonoBehaviour
         GM = GameObject.Find("Game Manager").GetComponent<GameManager>();
         _ai = GameObject.FindObjectOfType<AI>();
         _dest = transform.position;
-        source = GameObject.Find("Audio Source").GetComponent<SoundManager>();
+        sourceEffects = GameObject.Find("Audio Source Effects").GetComponent<SoundManager>();
+        sourceMusic = GameObject.Find("Audio Source Music").GetComponent<SoundManagerMusic>();
     }
 
     public void RandomizePlayerControls(bool randomize = true)
@@ -100,7 +102,8 @@ public class PlayerController : MonoBehaviour
         _deadPlaying = true;
         GetComponent<Animator>().SetBool("Die", true);
         // Play death tune
-        source.PlayDeath();
+        sourceMusic.StopPlaying();
+        sourceEffects.PlayDeath();
         yield return new WaitForSeconds(1);
         GetComponent<Animator>().SetBool("Die", false);
         _deadPlaying = false;
