@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 
 public class GameManager : MonoBehaviour {
 
@@ -40,6 +41,9 @@ public class GameManager : MonoBehaviour {
     private GameObject _rightPopup;
     private GameObject _leftPopup;
     private HeartController _heartController;
+
+    public GameObject checkpointPrefab;
+    Dictionary<Vector2Int, Vector2> freeTiles;
 
     public static GameManager instance
     {
@@ -82,6 +86,7 @@ public class GameManager : MonoBehaviour {
         _heartController = GameObject.FindObjectOfType<HeartController>();
         InitPopups();
         gameState = GameState.Wait;
+        FindFreeTiles();
         InitCheckpoints();
         source = GameObject.Find("Audio Source").GetComponent<SoundManager>();
         OnLevelLoaded();
@@ -226,15 +231,26 @@ public class GameManager : MonoBehaviour {
     }
 
     public void InitCheckpoints(){
-        var unorderedCheckpoints = FindObjectsOfType<Checkpoint>();
-        checkpoints = new List<Checkpoint>(unorderedCheckpoints);
-        checkpoints.Sort((x,y) => x.GetComponent<CheckpointEditor>().Number.CompareTo(y.GetComponent<CheckpointEditor>().Number));
+        checkpoints = new List<Checkpoint>();
+        int nCheckpoints = 5;
+        for (int i = 0; i < nCheckpoints; i++)
+        {
+            var checkpoint = Instantiate(checkpointPrefab);
+            checkpoint.transform.parent = transform.parent;
+            checkpoints.Add(checkpoint.GetComponent<Checkpoint>());
+        }
+        Debug.Log("Setting up checkpoints");
         ResetCheckpoints();
        }
 
     private void ResetCheckpoints(){
-     currentCheckpoint = 0;
+         currentCheckpoint = 0;
+        List<Vector2Int> keyList = new List<Vector2Int>(freeTiles.Keys);
         foreach(var checkpoint in checkpoints){
+            int index = UnityEngine.Random.Range(0, keyList.Count);
+            Debug.Log("The index is: " + index);
+            Vector2 pos = freeTiles[keyList[index]];
+            checkpoint.transform.position = pos;
             checkpoint.gameObject.SetActive(false);
             checkpoint.name = "checkpoint";
             Canvas canvas = checkpoint.GetComponentInChildren<Canvas>();
@@ -250,10 +266,10 @@ public class GameManager : MonoBehaviour {
         // Play checkpoint sound
         source.PlayPickup(currentCheckpoint);
         currentCheckpoint++;
-      //  if(currentCheckpoint < checkpoints.Count){
-      //      checkpoints[currentCheckpoint].gameObject.SetActive(true);
-      //  }
-      //  else{
+       if(currentCheckpoint < checkpoints.Count){
+           checkpoints[currentCheckpoint].gameObject.SetActive(true);
+       }
+       else{
             Debug.Log("Alla samlade!");
             // TODO Play finish music
             // TODO Show blackhole
@@ -265,8 +281,8 @@ public class GameManager : MonoBehaviour {
             checkpoints = new List<Checkpoint>();
             SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.LoadScene(sceneNames[sceneCounter]);
-            //ResetScene();
-      //  }
+            ResetScene();
+       }
     }
 
     public void LoseLife()
@@ -274,6 +290,44 @@ public class GameManager : MonoBehaviour {
         lives--;
         _heartController.SetLives(lives);
         gameState = GameState.Dead;
+    }
+
+
+
+    private void Step(AI ai, Vector3 pos){
+        bool isOk = false;
+        Vector2Int posInt = new Vector2Int((int)Mathf.Round(pos.x), (int)Mathf.Round(pos.y));
+        if(freeTiles.ContainsKey(posInt))
+            return;
+        freeTiles.Add(posInt, pos);
+        if(!ai.IsWallDown(pos)){
+            Step(ai, pos + Vector3.down);
+            isOk = true;
+        }
+        if(!ai.IsWallUp(pos)){
+            Step(ai, pos + Vector3.up);
+            isOk = true;
+        }
+        if(!ai.IsWallLeft(pos)){
+            Step(ai, pos + Vector3.left);
+            isOk = true;
+        }
+        if(!ai.IsWallRight(pos)){
+            Step(ai, pos + Vector3.right);
+            isOk = true;
+        }
+        if(isOk){
+        }
+
+    }
+
+    private void FindFreeTiles(){
+        freeTiles = new Dictionary<Vector2Int, Vector2>();
+        AI ai = FindObjectOfType<AI>();
+        Step(ai, pacman.transform.position);
+        // foreach (var position in tileMap.cellBounds.allPositionsWithin)
+        // {
+        // }
     }
 
 
