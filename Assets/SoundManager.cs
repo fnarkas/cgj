@@ -44,6 +44,7 @@ public class SoundManager : MonoBehaviour {
   }
 
   public void PlayLvlStartTheme(int nbr) {
+    GetSource().Stop(); // Fix issue when changing level and double music
     GetSource().PlayOneShot(LvlStartTheme[nbr]);
   }
 
