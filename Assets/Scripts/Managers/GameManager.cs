@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour {
     private string[] sceneNames = {"game", "pacmanLvl2", "pacmanLvl3"};
     private int sceneCounter = 0;
 
+    private static int nbrActiveGhosts = 1;
+
     private SoundManager source;
 
     public GameObject popup;
@@ -223,7 +225,23 @@ public class GameManager : MonoBehaviour {
         pacman = GameObject.Find("pacman");
         ghosts = new List<GhostMove>(FindObjectsOfType<GhostMove>());
 
-
+        // Enable/Disable ghosts depending on difficulty
+        int ghostCounter = 1; // We always have blinky active, do not count him
+        foreach(var ghost in ghosts) {
+          GameObject ghostObject = GameObject.Find(ghost.name);
+          if (ghost.name == "blinky") {
+            // binky is always activated
+            ghostObject.SetActive(true);
+            Debug.Log("Enable ghost: " + ghost.name);
+          } else if (nbrActiveGhosts > ghostCounter) {
+            Debug.Log("Enable ghost: " + ghost.name);
+            ghostObject.SetActive(true);
+            ghostCounter++;
+          } else {
+            Debug.Log("Disable ghost: " + ghost.name);
+            ghostObject.SetActive(false);
+          }
+        }
 
         if (pacman == null) Debug.Log("Pacman is NULL");
 
@@ -270,10 +288,13 @@ public class GameManager : MonoBehaviour {
             Debug.Log("Alla samlade!");
             // TODO Play finish music
             // TODO Show blackhole
-            // FIXME TODO Change scene
             sceneCounter++;
-            if (sceneCounter > 2)
+            if (sceneCounter > 2) {
               sceneCounter = 0;
+              // TODO Increase difficulty. Randomly assign different increases;
+              // either increased control difficulty or more monsters
+              nbrActiveGhosts++;
+            }
             gameState = GameState.Loading;
             checkpoints = new List<Checkpoint>();
             SceneManager.LoadScene(sceneNames[sceneCounter]);
