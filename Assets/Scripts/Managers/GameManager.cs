@@ -351,11 +351,13 @@ public class GameManager : MonoBehaviour
     {
         // Play checkpoint sound
         sourceEffect.PlayPickup(currentCheckpoint);
-        particleSystem.transform.position = checkpoints[currentCheckpoint].transform.position;
-        particleSystem.GetComponent<ParticleSystem>().Play();
         currentCheckpoint++;
         if (currentCheckpoint < checkpoints.Count)
         {
+            // particleSystem.particleEmitter = checkpoints[currentCheckpoint -1].transform.position;
+             ParticleSystem.ShapeModule _editableShape = particleSystem.GetComponent<ParticleSystem>().shape;
+            _editableShape.position = checkpoints[currentCheckpoint -1].transform.position;
+            particleSystem.GetComponent<ParticleSystem>().Play();
             checkpoints[currentCheckpoint].gameObject.SetActive(true);
         }
         else
