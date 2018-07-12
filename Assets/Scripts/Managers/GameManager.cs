@@ -283,7 +283,7 @@ public class GameManager : MonoBehaviour {
         // Play checkpoint sound
         source.PlayPickup(currentCheckpoint);
         currentCheckpoint++;
-       if(false && (currentCheckpoint < checkpoints.Count)){
+       if(currentCheckpoint < checkpoints.Count){
            checkpoints[currentCheckpoint].gameObject.SetActive(true);
        }
        else{
