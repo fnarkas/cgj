@@ -66,7 +66,7 @@ public class GhostMove : MonoBehaviour {
 	{
 	    DISTANCE = Vector3.Distance(transform.position, waypoint);
 		count++;
-		// if( count % 3 != 0)
+		// if( count % 30 != 0)
 		// return;
 
 		if(GameManager.gameState == GameManager.GameState.Game){

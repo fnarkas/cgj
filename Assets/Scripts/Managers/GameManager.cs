@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour {
           Debug.Log("I AM  AWAKE");
             _instance = this;
             DontDestroyOnLoad(this);
+            SceneManager.sceneLoaded += OnSceneLoaded;
             Init();
         }
         else
@@ -86,7 +87,6 @@ public class GameManager : MonoBehaviour {
         InitPopups();
         gameState = GameState.Wait;
         source = GameObject.Find("Audio Source").GetComponent<SoundManager>();
-        OnLevelLoaded();
 	}
 
     private void InitPopups()
@@ -238,7 +238,6 @@ public class GameManager : MonoBehaviour {
             checkpoint.transform.parent = transform.parent;
             checkpoints.Add(checkpoint.GetComponent<Checkpoint>());
         }
-        Debug.Log("Setting up checkpoints");
         ResetCheckpoints();
        }
 
@@ -247,7 +246,6 @@ public class GameManager : MonoBehaviour {
         List<Vector2Int> keyList = new List<Vector2Int>(freeTiles.Keys);
         foreach(var checkpoint in checkpoints){
             int index = UnityEngine.Random.Range(0, keyList.Count);
-            Debug.Log("The index is: " + index);
             Vector2 pos = freeTiles[keyList[index]];
             checkpoint.transform.position = pos;
             checkpoint.gameObject.SetActive(false);
@@ -278,7 +276,6 @@ public class GameManager : MonoBehaviour {
               sceneCounter = 0;
             gameState = GameState.Loading;
             checkpoints = new List<Checkpoint>();
-            SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.LoadScene(sceneNames[sceneCounter]);
             ResetScene();
        }
