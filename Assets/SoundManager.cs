@@ -7,6 +7,7 @@ public class SoundManager : MonoBehaviour {
   private AudioSource source;
   public AudioClip[] PickUp;
   public AudioClip[] LvlTheme;
+  public AudioClip[] LvlStartTheme;
   public AudioClip Death;
 	// Use this for initialization
 	void Start () {
@@ -40,6 +41,11 @@ public class SoundManager : MonoBehaviour {
 
   public void PlayLvlTheme(int nbr) {
     GetSource().PlayOneShot(LvlTheme[nbr]);
+  }
+
+  public void PlayLvlStartTheme(int nbr) {
+    GetSource().Stop(); // Fix issue when changing level and double music
+    GetSource().PlayOneShot(LvlStartTheme[nbr]);
   }
 
   public bool isPlaying() {

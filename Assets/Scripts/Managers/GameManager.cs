@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
     Dictionary<Vector2Int, Vector2> freeTiles;
     private const int SCREEN1 = 10;
     private const int SCREEN2 = 11;
-    
+
 
     public static GameManager instance
     {
@@ -145,10 +145,15 @@ public class GameManager : MonoBehaviour
         foreach (var ghost in ghosts)
         {
             ghost.speed = 0.13f + Level * SpeedPerLevel;
-            Debug.Log(ghost.name + ": speed " + ghost.speed);
         }
         pacman.GetComponent<PlayerController>().speed = 0.2f + Level * SpeedPerLevel;
-        Debug.Log("Pacman speed " + pacman.GetComponent<PlayerController>().speed);
+
+        // TODO FIXME When to perform random controls?
+        // Random controls
+        pacman.GetComponent<PlayerController>().RandomizePlayerControls();
+
+        // TODO FIXME get more lvl start music
+        source.PlayLvlStartTheme(0);
     }
 
     private void ResetVariables()
