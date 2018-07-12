@@ -35,7 +35,7 @@ public class SoundManager : MonoBehaviour {
   }
 
   public void PlayDeath() {
-
+    GetSource().Stop();
     GetSource().PlayOneShot(Death);
   }
 
