@@ -228,9 +228,15 @@ public class GameManager : MonoBehaviour
         if (ghostObject.activeSelf) {
           Vector2 ghostVector = new Vector2(ghost.transform.position.x, ghost.transform.position.y);
           float dist = Vector2.Distance(ghostVector, pacmanVector);
+           GameObject camera = GameObject.Find("Left Camera");
+              if(ghost.standardLayer == SCREEN1){
+                camera = GameObject.Find("Right Camera");
+              }
           if (dist < 4.5) {
+            camera.GetComponent<CameraMaterialChanger>().Glitch = true;
             ghostObject.layer = SCREENALL;
           } else {
+            camera.GetComponent<CameraMaterialChanger>().Glitch = false;
             ghostObject.layer = ghost.standardLayer;
           }
         }
