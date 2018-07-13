@@ -497,7 +497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0.88235295, g: 0.14273354, b: 0.14273354, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -604,15 +604,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4336725112449120, guid: 28b1c6f0c6fc9487aa903df4911e29ef, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4336725112449120, guid: 28b1c6f0c6fc9487aa903df4911e29ef, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 12.059998
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4336725112449120, guid: 28b1c6f0c6fc9487aa903df4911e29ef, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -40
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4336725112449120, guid: 28b1c6f0c6fc9487aa903df4911e29ef, type: 2}
       propertyPath: m_LocalRotation.x
@@ -637,7 +637,7 @@ Prefab:
     - target: {fileID: 20682938512244296, guid: 28b1c6f0c6fc9487aa903df4911e29ef,
         type: 2}
       propertyPath: orthographic size
-      value: 16
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 28b1c6f0c6fc9487aa903df4911e29ef, type: 2}
@@ -4474,15 +4474,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4589544438878010, guid: 89fb29ba3509f48e794cbb0caf1a43a8, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4589544438878010, guid: 89fb29ba3509f48e794cbb0caf1a43a8, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 12.059998
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4589544438878010, guid: 89fb29ba3509f48e794cbb0caf1a43a8, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -40
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4589544438878010, guid: 89fb29ba3509f48e794cbb0caf1a43a8, type: 2}
       propertyPath: m_LocalRotation.x
@@ -4507,7 +4507,7 @@ Prefab:
     - target: {fileID: 20348732069665618, guid: 89fb29ba3509f48e794cbb0caf1a43a8,
         type: 2}
       propertyPath: orthographic size
-      value: 16
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 89fb29ba3509f48e794cbb0caf1a43a8, type: 2}
@@ -6947,7 +6947,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0.8088235, g: 0.17841694, b: 0.17841694, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
