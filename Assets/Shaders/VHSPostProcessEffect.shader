@@ -1,4 +1,4 @@
-﻿Shader "Hidden/VHSPostProcessEffect" {
+Shader "Hidden/VHSPostProcessEffect" {
 	Properties {
 		_MainTex ("Base (RGB)", 2D) = "white" {}
 		_VHSTex ("Base (RGB)", 2D) = "white" {}
@@ -31,9 +31,12 @@
 				float dy = 1-abs(distance(i.uv.y, _yScanline));
 				
 				//float x = ((int)(i.uv.x*320))/320.0;
+				// height of line
 				dy = ((int)(dy*15))/15.0;
 				dy = dy;
-				i.uv.x += dy * 0.025 + rand(float3(dy,dy,dy)).r/500;//0.025;
+				// displacement
+				int displacementAmount = 500;
+				i.uv.x += dy * 0.025 + rand(float3(dy,dy,dy)).r/displacementAmount;//0.025;
 				
 				float white = (vhs.r+vhs.g+vhs.b)/3;
 				
