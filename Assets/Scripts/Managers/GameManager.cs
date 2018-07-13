@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     private string[] sceneNames = { "game", "pacmanLvl2", "pacmanLvl3" };
 
     private static int nbrActiveGhosts = 1;
+    private static bool shouldRandomizeControls = false;
 
     private SoundManager sourceEffect;
     private SoundManagerMusic sourceMusic;
@@ -171,7 +172,7 @@ public class GameManager : MonoBehaviour
 
     private void AssignControls()
     {
-        PlayerController.Controls controls = FindObjectOfType<PlayerController>().RandomizePlayerControls(true);
+        PlayerController.Controls controls = FindObjectOfType<PlayerController>().RandomizePlayerControls(shouldRandomizeControls);
         PopupController popupControllerLeft = _leftPopup.GetComponent<PopupController>();
         PopupController popupControllerRight = _rightPopup.GetComponent<PopupController>();
         switch(controls){
@@ -199,6 +200,7 @@ public class GameManager : MonoBehaviour
       Level = 0;
       lives = 3;
       nbrActiveGhosts = 1;
+      shouldRandomizeControls = false;
       _heartController.SetLives(lives);
       SceneManager.LoadScene(sceneNames[Level]);
       ResetScene();
@@ -423,6 +425,7 @@ public class GameManager : MonoBehaviour
 
             // Update level, go back to zero if we are at end
             Level++;
+            shouldRandomizeControls = true;
             if (Level > 2)
             {
                 Level = 0;

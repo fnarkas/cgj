@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
       } else {
         horizontalPlayer = "P1Horizontal";
         verticalPlayer = "P1Vertical";
-        controls = Controls.LeftAll;
+        controls = Controls.RightAll;
       }
       return controls;
     }

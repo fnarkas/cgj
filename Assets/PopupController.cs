@@ -39,7 +39,7 @@ public class PopupController : MonoBehaviour {
 				}
 							}
 		}
-	}	
+	}
 
 	private GameObject[] GetKeys(){
 		GameObject[] keys = {w, a, s, d, up, down, left, right};
@@ -111,11 +111,11 @@ public void ShowVerticalLeft(){
 
 	// Use this for initialization
 	void Start () {
-		
+
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 }
