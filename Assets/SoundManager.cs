@@ -22,7 +22,6 @@ public class SoundManager : MonoBehaviour {
 
   private AudioSource GetSource() {
     if(source == null) {
-      //source = GetComponent<AudioSource>();
       source = GameObject.Find("Audio Source Effects").GetComponent<AudioSource>();
     }
     return source;
