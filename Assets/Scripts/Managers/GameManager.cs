@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -114,6 +115,15 @@ public class GameManager : MonoBehaviour
         Camera rightCamera = GameObject.Find("Right Camera").GetComponent<Camera>();
         _leftPopup.GetComponent<Canvas>().worldCamera = leftCamera;
         _rightPopup.GetComponent<Canvas>().worldCamera = rightCamera;
+    }
+
+    private void setNbrCheckPointsText(int nbrLeft)
+    {
+      string staticText = "Left: ";
+      Text textLeft = GameObject.Find("TextLeft").GetComponent<Text>();
+      textLeft.text = staticText + nbrLeft;
+      Text textRight = GameObject.Find("TextRight").GetComponent<Text>();
+      textRight.text = staticText + nbrLeft;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -349,6 +359,7 @@ public class GameManager : MonoBehaviour
         {
             checkpoints[0].gameObject.SetActive(true);
         }
+        setNbrCheckPointsText(checkpoints.Count);
     }
 
     public void NextCheckpoint()
@@ -356,6 +367,10 @@ public class GameManager : MonoBehaviour
         // Play checkpoint sound
         sourceEffect.PlayPickup(currentCheckpoint);
         currentCheckpoint++;
+
+        // Update UI element showing number of checkpoints to gather
+        setNbrCheckPointsText(checkpoints.Count - currentCheckpoint);
+
         if (currentCheckpoint < checkpoints.Count)
         {
             // particleSystem.particleEmitter = checkpoints[currentCheckpoint -1].transform.position;
