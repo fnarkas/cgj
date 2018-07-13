@@ -320,6 +320,11 @@ public class GameManager : MonoBehaviour
                 // blinky is always activated
                 ghostObject.SetActive(true);
                 Debug.Log("Enable ghost: " + ghost.name);
+                if (Level == 1) {
+                  ghostObject.layer = SCREEN1;
+                } else {
+                  ghostObject.layer = SCREEN2;
+                }
             }
             else if (nbrActiveGhosts > ghostCounter)
             {
@@ -360,6 +365,11 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < nCheckpoints; i++)
         {
             var checkpoint = Instantiate(checkpointPrefab);
+            if (Level == 1) {
+              checkpoint.layer = SCREEN2;
+            } else {
+              checkpoint.layer = SCREEN1;
+            }
             checkpoint.transform.parent = transform.parent;
             checkpoints.Add(checkpoint.GetComponent<Checkpoint>());
         }
