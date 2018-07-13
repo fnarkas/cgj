@@ -154,9 +154,7 @@ public class GameManager : MonoBehaviour
         }
         pacman.GetComponent<PlayerController>().speed = 0.2f + Level * SpeedPerLevel;
 
-
-        // TODO FIXME get more lvl start music
-        sourceMusic.PlayLvlStartTheme(0);
+        sourceMusic.PlayLvlStartTheme(Level);
     }
 
     private void AssignControls()
@@ -216,9 +214,7 @@ public class GameManager : MonoBehaviour
         // Play lvl music
         if (!sourceMusic.isPlaying() && !sourceEffect.isPlaying())
         {
-            // TODO FIXME Add more songs
-            //source.PlayLvlTheme(Level);
-            sourceMusic.PlayLvlTheme(0);
+            sourceMusic.PlayLvlTheme(Level);
         }
     }
 
