@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
 
     public Controls RandomizePlayerControls(bool randomize = true)
     {
-        Controls controls;
+      Controls controls;
       if (randomize) {
         float rand = UnityEngine.Random.value;
         if(rand > 0.5){
@@ -65,6 +65,29 @@ public class PlayerController : MonoBehaviour
           verticalPlayer = "P1Vertical";
           controls = Controls.LeftHorizontal;
         }
+      } else {
+        horizontalPlayer = "P1Horizontal";
+        verticalPlayer = "P1Vertical";
+        controls = Controls.RightAll;
+      }
+      return controls;
+    }
+
+    public Controls SwitchPlayerControls()
+    {
+      Controls controls;
+      if (horizontalPlayer == "P1Horizontal" && verticalPlayer == "P2Vertical") {
+        horizontalPlayer = "P2Horizontal";
+        verticalPlayer = "P1Vertical";
+        controls = Controls.LeftHorizontal;
+      } else if (horizontalPlayer == "P2Horizontal" && verticalPlayer == "P1Vertical") {
+        horizontalPlayer = "P1Horizontal";
+        verticalPlayer = "P2Vertical";
+        controls = Controls.LeftVertical;
+      } else if (horizontalPlayer == "P1Horizontal") {
+        horizontalPlayer = "P2Horizontal";
+        verticalPlayer = "P2Vertical";
+        controls = Controls.LeftAll;
       } else {
         horizontalPlayer = "P1Horizontal";
         verticalPlayer = "P1Vertical";

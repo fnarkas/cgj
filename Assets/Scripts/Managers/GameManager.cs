@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
 
     private static int nbrActiveGhosts = 1;
     private static bool shouldRandomizeControls = false;
+    private static bool switchPlayerControls = false;
 
     private SoundManager sourceEffect;
     private SoundManagerMusic sourceMusic;
@@ -80,7 +81,6 @@ public class GameManager : MonoBehaviour
     {
         if (_instance == null)
         {
-            Debug.Log("I AM  AWAKE");
             _instance = this;
             DontDestroyOnLoad(this);
             SceneManager.sceneLoaded += OnSceneLoaded;
@@ -173,6 +173,9 @@ public class GameManager : MonoBehaviour
     private void AssignControls()
     {
         PlayerController.Controls controls = FindObjectOfType<PlayerController>().RandomizePlayerControls(shouldRandomizeControls);
+        if (switchPlayerControls) {
+          controls = FindObjectOfType<PlayerController>().SwitchPlayerControls();
+        }
         PopupController popupControllerLeft = _leftPopup.GetComponent<PopupController>();
         PopupController popupControllerRight = _rightPopup.GetComponent<PopupController>();
         switch(controls){
@@ -201,6 +204,7 @@ public class GameManager : MonoBehaviour
       lives = 3;
       nbrActiveGhosts = 1;
       shouldRandomizeControls = false;
+      switchPlayerControls = false;
       _heartController.SetLives(lives);
       SceneManager.LoadScene(sceneNames[Level]);
       ResetScene();
@@ -422,14 +426,14 @@ public class GameManager : MonoBehaviour
             // TODO Show blackhole
             gameState = GameState.Loading;
             checkpoints = new List<Checkpoint>();
-
+            switchPlayerControls = !switchPlayerControls;
             // Update level, go back to zero if we are at end
             Level++;
-            shouldRandomizeControls = true;
             if (Level > 2)
             {
                 Level = 0;
                 nbrActiveGhosts++;
+                shouldRandomizeControls = true;
             }
 
             SceneManager.LoadScene(sceneNames[Level]);
