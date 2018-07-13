@@ -217,6 +217,23 @@ public class GameManager : MonoBehaviour
         PlayerController.killstreak = 0;
     }
 
+    IEnumerator ghostDistance()
+    {
+      Vector2 pacmanVector = new Vector2(pacman.transform.position.x, pacman.transform.position.y);
+      foreach (var ghost in ghosts)
+      {
+        GameObject ghostObject = ghost.gameObject;
+        if (ghostObject.activeSelf) {
+          Vector2 ghostVector = new Vector2(ghost.transform.position.x, ghost.transform.position.y);
+          float dist = Vector2.Distance(ghostVector, pacmanVector);
+          if (dist < 3.2) {
+            Debug.Log("Close!");
+          }
+        }
+      }
+      yield return null;
+    }
+
     IEnumerator SleepTime()
     {
       yield return new WaitForSeconds(2);
@@ -252,6 +269,11 @@ public class GameManager : MonoBehaviour
         if (!sourceMusic.isPlaying() && !sourceEffect.isPlaying())
         {
             sourceMusic.PlayLvlTheme(Level);
+        }
+
+        if (gameState == GameState.Game)
+        {
+          StartCoroutine(ghostDistance());
         }
     }
 
