@@ -367,8 +367,12 @@ public class GameManager : MonoBehaviour
             var checkpoint = Instantiate(checkpointPrefab);
             if (Level == 1) {
               checkpoint.layer = SCREEN2;
+              _rightPopup.GetComponent<PopupController>().ShowTacos();
+              _leftPopup.GetComponent<PopupController>().HideTacos();
             } else {
               checkpoint.layer = SCREEN1;
+              _leftPopup.GetComponent<PopupController>().ShowTacos();
+              _rightPopup.GetComponent<PopupController>().HideTacos();
             }
             checkpoint.transform.parent = transform.parent;
             checkpoints.Add(checkpoint.GetComponent<Checkpoint>());

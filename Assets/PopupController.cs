@@ -15,16 +15,12 @@ public class PopupController : MonoBehaviour {
 	public GameObject[] ghosts;
 
 	public GameObject nothing;
+	public GameObject tacos;
 
 
 	public void ShowGhosts(List<GameObject> list){
 		int n = list.Count;
 		int i =0;
-		if(list.Count == 0){
-			nothing.SetActive(true);
-		}else{
-			nothing.SetActive(false);
-		}
 
 		foreach(var ghost in ghosts){
 			ghost.SetActive(false);
@@ -57,6 +53,7 @@ public class PopupController : MonoBehaviour {
 
 	public void ShowNone(){
 		DisableAll(GetKeys());
+		nothing.SetActive(true);
 	}
 
 	private void DisableAll(GameObject[] keys){
@@ -70,6 +67,7 @@ public void ShowVerticalLeft(){
 		d.SetActive(false);
 		s.SetActive(true);
 		w.SetActive(true);
+		nothing.SetActive(false);
 	}
 
 	public void ShowVerticalRight(){
@@ -78,6 +76,7 @@ public void ShowVerticalLeft(){
 		down.SetActive(true);
 		left.SetActive(false);
 		right.SetActive(false);
+		nothing.SetActive(false);
 	}
 	public void ShowHorizontalLeft(){
 		a.SetActive(true);
@@ -85,6 +84,7 @@ public void ShowVerticalLeft(){
 		w.SetActive(false);
 		s.SetActive(false);
 		DisableAllRight();
+		nothing.SetActive(false);
 	}
 
 	public void ShowHorizontalRight(){
@@ -93,6 +93,7 @@ public void ShowVerticalLeft(){
 		right.SetActive(true);
 		up.SetActive(false);
 		down.SetActive(false);
+		nothing.SetActive(false);
 	}
 	public void ShowAllRight(){
 		DisableAllLeft();
@@ -100,6 +101,7 @@ public void ShowVerticalLeft(){
 		right.SetActive(true);
 		up.SetActive(true);
 		down.SetActive(true);
+		nothing.SetActive(false);
 	}
 	public void ShowAllLeft(){
 		w.SetActive(true);
@@ -107,6 +109,14 @@ public void ShowVerticalLeft(){
 		s.SetActive(true);
 		d.SetActive(true);
 		DisableAllRight();
+		nothing.SetActive(false);
+	}
+
+	public void ShowTacos(){
+		tacos.SetActive(true);
+	}
+	public void HideTacos(){
+		tacos.SetActive(false);
 	}
 
 	// Use this for initialization
