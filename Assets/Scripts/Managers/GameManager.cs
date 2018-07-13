@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject checkpointPrefab;
     Dictionary<Vector2Int, Vector2> freeTiles;
+    private const int SCREENALL = 1;
     private const int SCREEN1 = 10;
     private const int SCREEN2 = 11;
 
@@ -218,6 +219,25 @@ public class GameManager : MonoBehaviour
         PlayerController.killstreak = 0;
     }
 
+    IEnumerator ghostDistance()
+    {
+      Vector2 pacmanVector = new Vector2(pacman.transform.position.x, pacman.transform.position.y);
+      foreach (var ghost in ghosts)
+      {
+        GameObject ghostObject = ghost.gameObject;
+        if (ghostObject.activeSelf) {
+          Vector2 ghostVector = new Vector2(ghost.transform.position.x, ghost.transform.position.y);
+          float dist = Vector2.Distance(ghostVector, pacmanVector);
+          if (dist < 4.5) {
+            ghostObject.layer = SCREENALL;
+          } else {
+            ghostObject.layer = ghost.standardLayer;
+          }
+        }
+      }
+      yield return null;
+    }
+
     IEnumerator SleepTime()
     {
       yield return new WaitForSeconds(2);
@@ -253,6 +273,11 @@ public class GameManager : MonoBehaviour
         if (!sourceMusic.isPlaying() && !sourceEffect.isPlaying())
         {
             sourceMusic.PlayLvlTheme(Level);
+        }
+
+        if (gameState == GameState.Game)
+        {
+          StartCoroutine(ghostDistance());
         }
     }
 
@@ -340,6 +365,7 @@ public class GameManager : MonoBehaviour
             }
             if (ghostObject.activeSelf)
             {
+                ghost.standardLayer = ghostObject.layer;
                 if (ghostObject.layer == SCREEN1)
                 {
                     leftGhosts.Add(ghostObject);
