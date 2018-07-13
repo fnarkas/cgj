@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject particleSystem;
 
-    int nCheckpoints = 5;
+    int nCheckpoints = 3;
 
     private static int CHECKPOINTDISTANCE = 10;
 
