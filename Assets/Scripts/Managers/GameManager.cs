@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -116,6 +117,15 @@ public class GameManager : MonoBehaviour
         _rightPopup.GetComponent<Canvas>().worldCamera = rightCamera;
     }
 
+    private void setNbrCheckPointsText(int nbrLeft)
+    {
+      string staticText = "Left: ";
+      Text textLeft = GameObject.Find("TextLeft").GetComponent<Text>();
+      textLeft.text = staticText + nbrLeft;
+      Text textRight = GameObject.Find("TextRight").GetComponent<Text>();
+      textRight.text = staticText + nbrLeft;
+    }
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         OnLevelLoaded();
@@ -154,9 +164,7 @@ public class GameManager : MonoBehaviour
         }
         pacman.GetComponent<PlayerController>().speed = 0.2f + Level * SpeedPerLevel;
 
-
-        // TODO FIXME get more lvl start music
-        sourceMusic.PlayLvlStartTheme(0);
+        sourceMusic.PlayLvlStartTheme(Level);
     }
 
     private void AssignControls()
@@ -216,9 +224,7 @@ public class GameManager : MonoBehaviour
         // Play lvl music
         if (!sourceMusic.isPlaying() && !sourceEffect.isPlaying())
         {
-            // TODO FIXME Add more songs
-            //source.PlayLvlTheme(Level);
-            sourceMusic.PlayLvlTheme(0);
+            sourceMusic.PlayLvlTheme(Level);
         }
     }
 
@@ -353,6 +359,7 @@ public class GameManager : MonoBehaviour
         {
             checkpoints[0].gameObject.SetActive(true);
         }
+        setNbrCheckPointsText(checkpoints.Count);
     }
 
     public void NextCheckpoint()
@@ -360,6 +367,10 @@ public class GameManager : MonoBehaviour
         // Play checkpoint sound
         sourceEffect.PlayPickup(currentCheckpoint);
         currentCheckpoint++;
+
+        // Update UI element showing number of checkpoints to gather
+        setNbrCheckPointsText(checkpoints.Count - currentCheckpoint);
+
         if (currentCheckpoint < checkpoints.Count)
         {
             // particleSystem.particleEmitter = checkpoints[currentCheckpoint -1].transform.position;
