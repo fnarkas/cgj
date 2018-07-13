@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject particleSystem;
 
+    int nCheckpoints = 5;
 
     public static GameManager instance
     {
@@ -119,11 +120,11 @@ public class GameManager : MonoBehaviour
 
     private void setNbrCheckPointsText(int nbrLeft)
     {
-      string staticText = "Left: ";
       Text textLeft = GameObject.Find("TextLeft").GetComponent<Text>();
-      textLeft.text = staticText + nbrLeft;
+      String text = (nCheckpoints - nbrLeft) + "/" + nCheckpoints;
+      textLeft.text =  text;
       Text textRight = GameObject.Find("TextRight").GetComponent<Text>();
-      textRight.text = staticText + nbrLeft;
+      textRight.text = text;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -330,7 +331,6 @@ public class GameManager : MonoBehaviour
     public void InitCheckpoints()
     {
         checkpoints = new List<Checkpoint>();
-        int nCheckpoints = 5;
         for (int i = 0; i < nCheckpoints; i++)
         {
             var checkpoint = Instantiate(checkpointPrefab);
