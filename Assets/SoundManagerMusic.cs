@@ -22,7 +22,6 @@ public class SoundManagerMusic : MonoBehaviour {
 
   private AudioSource GetSource() {
     if(source == null) {
-      //source = GetComponent<AudioSource>();
       source = GameObject.Find("Audio Source Music").GetComponent<AudioSource>();
     }
     return source;
@@ -43,7 +42,6 @@ public class SoundManagerMusic : MonoBehaviour {
 
   public void StopPlaying()
   {
-    Debug.Log("------------------------");
     GetSource().Stop();
   }
 }

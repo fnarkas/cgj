@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public static int Level = 0;
     public static int lives = 3;
 
-    public enum GameState { Init, Wait, WaitTime, Game, Dead, Scores, Loading }
+    public enum GameState { Init, Wait, WaitTime, Game, Dead, Scores, Loading, GameOver }
     public static GameState gameState;
 
     private GameObject pacman;
@@ -110,7 +110,6 @@ public class GameManager : MonoBehaviour
 
     private void ChangeCameras()
     {
-        Debug.Log("Changing cameras");
         Camera leftCamera = GameObject.Find("Left Camera").GetComponent<Camera>();
         Camera rightCamera = GameObject.Find("Right Camera").GetComponent<Camera>();
         _leftPopup.GetComponent<Canvas>().worldCamera = leftCamera;
@@ -192,6 +191,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void ResetGame()
+    {
+      Level = 0;
+      lives = 3;
+      nbrActiveGhosts = 1;
+      _heartController.SetLives(lives);
+      SceneManager.LoadScene(sceneNames[Level]);
+      ResetScene();
+    }
+
     private void ResetVariables()
     {
         _timeToCalm = 0.0f;
@@ -208,6 +217,15 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gameState == GameState.GameOver)
+        {
+          Debug.Log("GAME OVER game");
+
+          // TODO Print game over text
+          StartCoroutine(SleepTime());
+          ResetGame();
+        }
+
         if (gameState == GameState.WaitTime)
         {
             _leftPopup.SetActive(true);
@@ -447,9 +465,6 @@ public class GameManager : MonoBehaviour
         freeTiles = new Dictionary<Vector2Int, Vector2>();
         AI ai = FindObjectOfType<AI>();
         Step(ai, pacman.transform.position);
-        // foreach (var position in tileMap.cellBounds.allPositionsWithin)
-        // {
-        // }
     }
 
 

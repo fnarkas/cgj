@@ -113,7 +113,7 @@ public class PlayerController : MonoBehaviour
 
         if (GameManager.lives <= 0)
         {
-
+          GameManager.gameState = GameManager.GameState.GameOver;
         }
 
         else
