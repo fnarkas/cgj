@@ -35,6 +35,7 @@ Shader "Sprites/Glitch"
 		[MaterialToggle] _WrapDispCoords ("Wrap disp glitch (off = clamp)", Float) = 1
 		[MaterialToggle] _DispGlitchOn ("Displacement Glitch On", Float) = 1
 		[MaterialToggle] _ColorGlitchOn ("Color Glitch On", Float) = 1
+		[HideInInspector] _RendererColor ("RendererColor", Color) = (1,1,1,1)
 	}
 
 	SubShader
@@ -177,7 +178,7 @@ Shader "Sprites/Glitch"
 				c.a *= IN.color.a;
 				c.rgb *= c.a;
 				if(_IsOn == 0){
-					c = superNormalC;
+					c = superNormalC* IN.color.a;
 				}
 				return c;
 			}

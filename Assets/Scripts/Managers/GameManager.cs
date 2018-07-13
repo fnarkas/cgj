@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
@@ -421,6 +422,10 @@ public class GameManager : MonoBehaviour
         // Play checkpoint sound
         sourceEffect.PlayPickup(currentCheckpoint);
         currentCheckpoint++;
+        // ghosts[0].GetComponent<SpriteRenderer>().DOColor(Color.clear, 3.0f);
+        // ghosts[1].GetComponent<SpriteRenderer>().DOColor(Color.clear, 3.0f);
+        // ghosts[2].GetComponent<SpriteRenderer>().DOColor(Color.clear, 3.0f);
+        // ghosts[3].GetComponent<SpriteRenderer>().DOColor(Color.clear, 3.0f);
 
         // Update UI element showing number of checkpoints to gather
         setNbrCheckPointsText(checkpoints.Count - currentCheckpoint);
