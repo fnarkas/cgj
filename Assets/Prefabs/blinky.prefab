@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5054592}
   - component: {fileID: 11454592}
   - component: {fileID: 11454594}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: blinky
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134,7 +134,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 1aa62dcdbb7e04c91a2225be2ad24637, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
