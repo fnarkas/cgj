@@ -35,6 +35,8 @@ public class GhostMove : MonoBehaviour {
 	public float scatterLength = 5f;
 	public float waitLength = 0.0f;
 
+  public int standardLayer;
+
 	private float timeToEndScatter;
 
 	enum State { Scatter, Chase, Run };

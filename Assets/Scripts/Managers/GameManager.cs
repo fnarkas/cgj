@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject checkpointPrefab;
     Dictionary<Vector2Int, Vector2> freeTiles;
+    private const int SCREENALL = 1;
     private const int SCREEN1 = 10;
     private const int SCREEN2 = 11;
 
@@ -226,8 +227,10 @@ public class GameManager : MonoBehaviour
         if (ghostObject.activeSelf) {
           Vector2 ghostVector = new Vector2(ghost.transform.position.x, ghost.transform.position.y);
           float dist = Vector2.Distance(ghostVector, pacmanVector);
-          if (dist < 3.2) {
-            Debug.Log("Close!");
+          if (dist < 4.5) {
+            ghostObject.layer = SCREENALL;
+          } else {
+            ghostObject.layer = ghost.standardLayer;
           }
         }
       }
@@ -361,6 +364,7 @@ public class GameManager : MonoBehaviour
             }
             if (ghostObject.activeSelf)
             {
+                ghost.standardLayer = ghostObject.layer;
                 if (ghostObject.layer == SCREEN1)
                 {
                     leftGhosts.Add(ghostObject);
