@@ -56,6 +56,8 @@ public class GameManager : MonoBehaviour
 
     int nCheckpoints = 5;
 
+    private static int CHECKPOINTDISTANCE = 10;
+
     public static GameManager instance
     {
         get
@@ -360,12 +362,26 @@ public class GameManager : MonoBehaviour
 
     private void ResetCheckpoints()
     {
+        // Get position of player for initial state
+        Vector2 previousVector = new Vector2(pacman.transform.position.x, pacman.transform.position.y);
+
+        float distLastCheckpoint = 255.0f;
+
         currentCheckpoint = 0;
         List<Vector2Int> keyList = new List<Vector2Int>(freeTiles.Keys);
         foreach (var checkpoint in checkpoints)
         {
-            int index = UnityEngine.Random.Range(0, keyList.Count);
-            Vector2 pos = freeTiles[keyList[index]];
+            Vector2 pos;
+            int index = 0;
+            // Make sure we have a proper distance from the reviously placed checkpoint.
+            // Start measurements from the player
+            do {
+              index = UnityEngine.Random.Range(0, keyList.Count);
+              pos = freeTiles[keyList[index]];
+              distLastCheckpoint = Vector2.Distance(previousVector, pos);
+            } while (distLastCheckpoint < CHECKPOINTDISTANCE);
+            previousVector = pos;
+
             checkpoint.transform.position = pos;
             checkpoint.gameObject.SetActive(false);
             checkpoint.name = "checkpoint";
