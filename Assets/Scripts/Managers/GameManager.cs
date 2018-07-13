@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
@@ -13,7 +14,7 @@ public class GameManager : MonoBehaviour
     public static int Level = 0;
     public static int lives = 3;
 
-    public enum GameState { Init, Wait, Game, Dead, Scores, Loading }
+    public enum GameState { Init, Wait, WaitTime, Game, Dead, Scores, Loading }
     public static GameState gameState;
 
     private GameObject pacman;
@@ -93,7 +94,6 @@ public class GameManager : MonoBehaviour
     {
         _heartController = GameObject.FindObjectOfType<HeartController>();
         InitPopups();
-        gameState = GameState.Wait;
         sourceEffect = GameObject.Find("Audio Source Effects").GetComponent<SoundManager>();
         sourceMusic = GameObject.Find("Audio Source Music").GetComponent<SoundManagerMusic>();
     }
@@ -120,6 +120,8 @@ public class GameManager : MonoBehaviour
     {
         OnLevelLoaded();
         ResetScene();
+        gameState = GameState.WaitTime;
+        StartCoroutine(SleepTime());
     }
 
     /// <summary>
@@ -189,18 +191,24 @@ public class GameManager : MonoBehaviour
         PlayerController.killstreak = 0;
     }
 
+    IEnumerator SleepTime()
+    {
+      yield return new WaitForSeconds(2);
+      gameState = GameState.Wait;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (gameState == GameState.Wait)
+        if (gameState == GameState.WaitTime)
         {
-            ListenForAnyKey();
+            _leftPopup.SetActive(true);
+            _rightPopup.SetActive(true);
         }
 
         if (gameState == GameState.Wait)
         {
-            _leftPopup.SetActive(true);
-            _rightPopup.SetActive(true);
+            ListenForAnyKey();
         }
         if (scared && _timeToCalm <= Time.time)
             CalmGhosts();
