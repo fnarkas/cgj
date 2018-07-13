@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class VertPlatformScroller : MonoBehaviour
 {
+    public static VertPlatformScroller instance;
     public float scrollSpeed = 0.25f, maxDistFromCam = 1;
     float camHeight, currentSpeed, catchupSpeed, camBottom, bgHeight;
     public Transform BG1, BG2;
     BoxCollider bgBox;
     Transform currentBG, otherBG;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
 
     private void Start()
     {

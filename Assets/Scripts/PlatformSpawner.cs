@@ -139,11 +139,6 @@ public class PlatformSpawner : MonoBehaviour
             xPos += 2;
             AddToChunk(xPos, yPos, 3, chunk1);
 
-            xPos = 7;
-            AddToChunk(xPos, yPos, 1, chunk1);
-            xPos = -8;
-            AddToChunk(xPos, yPos, 1, chunk1);
-
             chunkList.Add(chunk1);
             //platformChunks.Add(0, chunk1);
         }
@@ -171,11 +166,6 @@ public class PlatformSpawner : MonoBehaviour
             yPos += 3;
             xPos -= 4;
             AddToChunk(xPos, yPos, 3, chunk2);
-
-            xPos = 7;
-            AddToChunk(xPos, yPos, 1, chunk2);
-            xPos = -8;
-            AddToChunk(xPos, yPos, 1, chunk2);
 
             chunkList.Add(chunk2);
             //platformChunks.Add(1, chunk2);
@@ -208,11 +198,6 @@ public class PlatformSpawner : MonoBehaviour
             yPos += 1;
             xPos += 6;
             AddToChunk(xPos, yPos, 3, chunk3);
-
-            xPos = 7;
-            AddToChunk(xPos, yPos, 1, chunk3);
-            xPos = -8;
-            AddToChunk(xPos, yPos, 1, chunk3);
 
             chunkList.Add(chunk3);
             //platformChunks.Add(2, chunk3);

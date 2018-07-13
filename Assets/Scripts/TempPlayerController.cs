@@ -29,18 +29,18 @@ public class TempPlayerController : MonoBehaviour
         rb.velocity = new Vector2(dir.x * moveSpeed * 100 * Time.deltaTime, rb.velocity.y);
         dir = Vector2.zero;
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.RightArrow))
         {
             if (Grounded() || !isTouching)
                 dir = Vector2.right;
         }
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
             if (Grounded() || !isTouching)
                 dir = Vector2.left;
         }
 
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.W))
         {
             if (Grounded() && rb.velocity.y == 0)
             {
@@ -59,8 +59,8 @@ public class TempPlayerController : MonoBehaviour
     public bool Grounded()
     {
 
-        if (RayHit(new Vector2(col.bounds.extents.x + rb.position.x - 0.03f, rb.position.y), Vector2.down, minDistToGround, "environment")
-            || RayHit(new Vector2(-col.bounds.extents.x + rb.position.x, rb.position.y), Vector2.down, minDistToGround, "environment"))
+        if (RayHit(new Vector2(col.bounds.extents.x + rb.position.x + 0.03f, rb.position.y), Vector2.down, minDistToGround, "environment")
+            || RayHit(new Vector2(-col.bounds.extents.x + rb.position.x - 0.03f, rb.position.y), Vector2.down, minDistToGround, "environment"))
         {
             return true;
         }
