@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
 
     private string[] sceneNames = { "game", "pacmanLvl2", "pacmanLvl3" };
 
-    private static int nbrActiveGhosts = 1;
+    private static int nbrActiveGhosts = 0;
     private static bool shouldRandomizeControls = false;
     private static bool switchPlayerControls = false;
 
@@ -202,7 +202,7 @@ public class GameManager : MonoBehaviour
     {
       Level = 0;
       lives = 3;
-      nbrActiveGhosts = 1;
+      nbrActiveGhosts = 0;
       shouldRandomizeControls = false;
       switchPlayerControls = false;
       _heartController.SetLives(lives);
