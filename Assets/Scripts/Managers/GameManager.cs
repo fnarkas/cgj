@@ -203,8 +203,6 @@ public class GameManager : MonoBehaviour
     {
       Level = 0;
       lives = 3;
-      nbrActiveGhosts = 0;
-      shouldRandomizeControls = false;
       switchPlayerControls = false;
       _heartController.SetLives(lives);
       SceneManager.LoadScene(sceneNames[Level]);
