@@ -161,6 +161,7 @@ public class GameManager : MonoBehaviour
         if (Level == 0) lives = 3;
         Debug.Log("Level " + Level + " Loaded!");
         ResetVariables();
+        _heartController.SetLives(lives);
 
         foreach (var ghost in ghosts)
         {
