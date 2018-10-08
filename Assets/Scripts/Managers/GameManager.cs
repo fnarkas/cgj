@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
@@ -236,21 +237,23 @@ public class GameManager : MonoBehaviour
             GameObject ghostObject = ghost.gameObject;
             if (ghostObject.activeSelf)
             {
-                Vector2 ghostVector = new Vector2(ghost.transform.position.x, ghost.transform.position.y);
-                float dist = Vector2.Distance(ghostVector, pacmanVector);
-                if (dist < 4.5)
-                {
-                    ghostObject.layer = SCREENALL;
-                }
-                else
-                {
-                    ghostObject.layer = ghost.standardLayer;
-                }
-            }
+          Vector2 ghostVector = new Vector2(ghost.transform.position.x, ghost.transform.position.y);
+          float dist = Vector2.Distance(ghostVector, pacmanVector);
+           GameObject camera = GameObject.Find("Left Camera");
+              if(ghost.standardLayer == SCREEN1){
+                camera = GameObject.Find("Right Camera");
+              }
+          if (dist < 4.5) {
+            camera.GetComponent<CameraMaterialChanger>().Glitch = true;
+            ghostObject.layer = SCREENALL;
+          } else {
+            camera.GetComponent<CameraMaterialChanger>().Glitch = false;
+            ghostObject.layer = ghost.standardLayer;
+          }
         }
         yield return null;
     }
-
+    }
     IEnumerator SleepTime()
     {
         yield return new WaitForSeconds(1);
@@ -477,6 +480,10 @@ public class GameManager : MonoBehaviour
         // Play checkpoint sound
         sourceEffect.PlayPickup(currentCheckpoint);
         currentCheckpoint++;
+        // ghosts[0].GetComponent<SpriteRenderer>().DOColor(Color.clear, 3.0f);
+        // ghosts[1].GetComponent<SpriteRenderer>().DOColor(Color.clear, 3.0f);
+        // ghosts[2].GetComponent<SpriteRenderer>().DOColor(Color.clear, 3.0f);
+        // ghosts[3].GetComponent<SpriteRenderer>().DOColor(Color.clear, 3.0f);
 
         // Update UI element showing number of checkpoints to gather
         setNbrCheckPointsText(checkpoints.Count - currentCheckpoint);

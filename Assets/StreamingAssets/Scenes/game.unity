@@ -289,6 +289,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11454750, guid: db15fdab6be0e104fbcf2c44afaad894, type: 2}
+      propertyPath: pacman
+      value: 
+      objectReference: {fileID: 508745664}
     - target: {fileID: 11454752, guid: db15fdab6be0e104fbcf2c44afaad894, type: 2}
       propertyPath: target
       value: 
@@ -297,19 +301,6 @@ Prefab:
       propertyPath: TileMap
       value: 
       objectReference: {fileID: 1757211755}
-    - target: {fileID: 11454750, guid: db15fdab6be0e104fbcf2c44afaad894, type: 2}
-      propertyPath: pacman
-      value: 
-      objectReference: {fileID: 508745664}
-    - target: {fileID: 9554750, guid: db15fdab6be0e104fbcf2c44afaad894, type: 2}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 65a98f2f8cd16ac429751af666da1501, type: 2}
-    - target: {fileID: 21254750, guid: db15fdab6be0e104fbcf2c44afaad894, type: 2}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300016, guid: 2d05c04abf89a41e6addf29888ad3fc9,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db15fdab6be0e104fbcf2c44afaad894, type: 2}
   m_IsPrefabAsset: 0
@@ -706,6 +697,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 11494802, guid: bc6b2f74c0c842443b5d21543c3e5e16, type: 2}
+      propertyPath: pacman
+      value: 
+      objectReference: {fileID: 508745664}
     - target: {fileID: 11494804, guid: bc6b2f74c0c842443b5d21543c3e5e16, type: 2}
       propertyPath: target
       value: 
@@ -714,27 +709,6 @@ Prefab:
       propertyPath: TileMap
       value: 
       objectReference: {fileID: 1757211755}
-    - target: {fileID: 11494802, guid: bc6b2f74c0c842443b5d21543c3e5e16, type: 2}
-      propertyPath: pacman
-      value: 
-      objectReference: {fileID: 508745664}
-    - target: {fileID: 9594802, guid: bc6b2f74c0c842443b5d21543c3e5e16, type: 2}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 97ea51180feeed94db8dce3ee11d9896, type: 2}
-    - target: {fileID: 21294802, guid: bc6b2f74c0c842443b5d21543c3e5e16, type: 2}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300008, guid: 2d05c04abf89a41e6addf29888ad3fc9,
-        type: 3}
-    - target: {fileID: 494802, guid: bc6b2f74c0c842443b5d21543c3e5e16, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 494802, guid: bc6b2f74c0c842443b5d21543c3e5e16, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc6b2f74c0c842443b5d21543c3e5e16, type: 2}
   m_IsPrefabAsset: 0
@@ -8616,6 +8590,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11451032, guid: e51e4ed36b94fe24f8dc937c5aac9052, type: 2}
+      propertyPath: pacman
+      value: 
+      objectReference: {fileID: 508745664}
     - target: {fileID: 11451030, guid: e51e4ed36b94fe24f8dc937c5aac9052, type: 2}
       propertyPath: target
       value: 
@@ -8624,23 +8602,6 @@ Prefab:
       propertyPath: TileMap
       value: 
       objectReference: {fileID: 1757211755}
-    - target: {fileID: 11451032, guid: e51e4ed36b94fe24f8dc937c5aac9052, type: 2}
-      propertyPath: pacman
-      value: 
-      objectReference: {fileID: 508745664}
-    - target: {fileID: 9551032, guid: e51e4ed36b94fe24f8dc937c5aac9052, type: 2}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: c5e7f6f5101dc284ab496d26c6864066, type: 2}
-    - target: {fileID: 21251032, guid: e51e4ed36b94fe24f8dc937c5aac9052, type: 2}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 2d05c04abf89a41e6addf29888ad3fc9,
-        type: 3}
-    - target: {fileID: 151032, guid: e51e4ed36b94fe24f8dc937c5aac9052, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e51e4ed36b94fe24f8dc937c5aac9052, type: 2}
   m_IsPrefabAsset: 0
@@ -8683,6 +8644,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 11454592, guid: 9f090580268dde54d8def18b84c4dbab, type: 2}
+      propertyPath: pacman
+      value: 
+      objectReference: {fileID: 508745664}
     - target: {fileID: 11454594, guid: 9f090580268dde54d8def18b84c4dbab, type: 2}
       propertyPath: target
       value: 
@@ -8691,14 +8656,6 @@ Prefab:
       propertyPath: TileMap
       value: 
       objectReference: {fileID: 1757211755}
-    - target: {fileID: 11454592, guid: 9f090580268dde54d8def18b84c4dbab, type: 2}
-      propertyPath: pacman
-      value: 
-      objectReference: {fileID: 508745664}
-    - target: {fileID: 154592, guid: 9f090580268dde54d8def18b84c4dbab, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f090580268dde54d8def18b84c4dbab, type: 2}
   m_IsPrefabAsset: 0
