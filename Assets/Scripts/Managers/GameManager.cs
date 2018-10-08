@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public static int Level = 0;
     public static int lives = 3;
 
-    public enum GameState { Init, Wait, WaitTime, Game, Dead, Scores, Loading, GameOver }
+    public enum GameState { Tutorial, Init, Wait, WaitTime, Game, Dead, Scores, Loading, GameOver }
     public static GameState gameState;
 
     private GameObject pacman;
@@ -75,6 +75,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public GameObject UseDivider;
+    private bool _loadedBefore;
+
     //-------------------------------------------------------------------
     // function definitions
 
@@ -98,6 +101,7 @@ public class GameManager : MonoBehaviour
     //void Start ()
     void Init()
     {
+        gameState = GameState.Init;
         _heartController = GameObject.FindObjectOfType<HeartController>();
         InitPopups();
         sourceEffect = GameObject.Find("Audio Source Effects").GetComponent<SoundManager>();
@@ -123,19 +127,24 @@ public class GameManager : MonoBehaviour
 
     private void setNbrCheckPointsText(int nbrLeft)
     {
-      Text textLeft = GameObject.Find("TextLeft").GetComponent<Text>();
-      String text = (nCheckpoints - nbrLeft) + "/" + nCheckpoints;
-      textLeft.text =  text;
-      Text textRight = GameObject.Find("TextRight").GetComponent<Text>();
-      textRight.text = text;
+        Text textLeft = GameObject.Find("TextLeft").GetComponent<Text>();
+        String text = (nCheckpoints - nbrLeft) + "/" + nCheckpoints;
+        textLeft.text = text;
+        Text textRight = GameObject.Find("TextRight").GetComponent<Text>();
+        textRight.text = text;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         OnLevelLoaded();
         ResetScene();
-        gameState = GameState.WaitTime;
-        StartCoroutine(SleepTime());
+        if(!_loadedBefore){
+            _loadedBefore = true;
+           gameState =  GameState.Tutorial;
+        }else{
+            gameState = GameState.WaitTime;
+            StartCoroutine(SleepTime());
+        }
     }
 
     /// <summary>
@@ -175,39 +184,41 @@ public class GameManager : MonoBehaviour
     private void AssignControls()
     {
         PlayerController.Controls controls = FindObjectOfType<PlayerController>().RandomizePlayerControls(shouldRandomizeControls);
-        if (switchPlayerControls) {
-          controls = FindObjectOfType<PlayerController>().SwitchPlayerControls();
+        if (switchPlayerControls)
+        {
+            controls = FindObjectOfType<PlayerController>().SwitchPlayerControls();
         }
         PopupController popupControllerLeft = _leftPopup.GetComponent<PopupController>();
         PopupController popupControllerRight = _rightPopup.GetComponent<PopupController>();
-        switch(controls){
+        switch (controls)
+        {
             case PlayerController.Controls.LeftAll:
                 popupControllerLeft.ShowAllLeft();
                 popupControllerRight.ShowNone();
-            break;
+                break;
             case PlayerController.Controls.LeftHorizontal:
                 popupControllerLeft.ShowHorizontalLeft();
                 popupControllerRight.ShowVerticalRight();
-            break;
+                break;
             case PlayerController.Controls.LeftVertical:
                 popupControllerLeft.ShowVerticalLeft();
                 popupControllerRight.ShowHorizontalRight();
-            break;
+                break;
             case PlayerController.Controls.RightAll:
                 popupControllerLeft.ShowNone();
                 popupControllerRight.ShowAllRight();
-            break;
+                break;
         }
     }
 
     private void ResetGame()
     {
-      Level = 0;
-      lives = 3;
-      switchPlayerControls = false;
-      _heartController.SetLives(lives);
-      SceneManager.LoadScene(sceneNames[Level]);
-      ResetScene();
+        Level = 0;
+        lives = 3;
+        switchPlayerControls = false;
+        _heartController.SetLives(lives);
+        SceneManager.LoadScene(sceneNames[Level]);
+        ResetScene();
     }
 
     private void ResetVariables()
@@ -219,27 +230,31 @@ public class GameManager : MonoBehaviour
 
     IEnumerator ghostDistance()
     {
-      Vector2 pacmanVector = new Vector2(pacman.transform.position.x, pacman.transform.position.y);
-      foreach (var ghost in ghosts)
-      {
-        GameObject ghostObject = ghost.gameObject;
-        if (ghostObject.activeSelf) {
-          Vector2 ghostVector = new Vector2(ghost.transform.position.x, ghost.transform.position.y);
-          float dist = Vector2.Distance(ghostVector, pacmanVector);
-          if (dist < 4.5) {
-            ghostObject.layer = SCREENALL;
-          } else {
-            ghostObject.layer = ghost.standardLayer;
-          }
+        Vector2 pacmanVector = new Vector2(pacman.transform.position.x, pacman.transform.position.y);
+        foreach (var ghost in ghosts)
+        {
+            GameObject ghostObject = ghost.gameObject;
+            if (ghostObject.activeSelf)
+            {
+                Vector2 ghostVector = new Vector2(ghost.transform.position.x, ghost.transform.position.y);
+                float dist = Vector2.Distance(ghostVector, pacmanVector);
+                if (dist < 4.5)
+                {
+                    ghostObject.layer = SCREENALL;
+                }
+                else
+                {
+                    ghostObject.layer = ghost.standardLayer;
+                }
+            }
         }
-      }
-      yield return null;
+        yield return null;
     }
 
     IEnumerator SleepTime()
     {
-      yield return new WaitForSeconds(2);
-      gameState = GameState.Wait;
+        yield return new WaitForSeconds(1);
+        gameState = GameState.Wait;
     }
 
     // Update is called once per frame
@@ -247,13 +262,22 @@ public class GameManager : MonoBehaviour
     {
         if (gameState == GameState.GameOver)
         {
-          Debug.Log("GAME OVER game");
+            Debug.Log("GAME OVER game");
 
-          // TODO Print game over text
-          StartCoroutine(SleepTime());
-          ResetGame();
+            // TODO Print game over text
+            StartCoroutine(SleepTime());
+            ResetGame();
         }
 
+        if (gameState == GameState.Tutorial)
+        {
+            if (Input.anyKeyDown)
+            {
+                gameState = GameState.WaitTime;
+                UseDivider.SetActive(false);
+                 StartCoroutine(SleepTime());
+            }
+        }
         if (gameState == GameState.WaitTime)
         {
             _leftPopup.SetActive(true);
@@ -275,7 +299,7 @@ public class GameManager : MonoBehaviour
 
         if (gameState == GameState.Game)
         {
-          StartCoroutine(ghostDistance());
+            StartCoroutine(ghostDistance());
         }
     }
 
@@ -344,10 +368,13 @@ public class GameManager : MonoBehaviour
                 // blinky is always activated
                 ghostObject.SetActive(true);
                 Debug.Log("Enable ghost: " + ghost.name);
-                if (Level == 1) {
-                  ghostObject.layer = SCREEN1;
-                } else {
-                  ghostObject.layer = SCREEN2;
+                if (Level == 1)
+                {
+                    ghostObject.layer = SCREEN1;
+                }
+                else
+                {
+                    ghostObject.layer = SCREEN2;
                 }
             }
             else if (nbrActiveGhosts > ghostCounter)
@@ -390,14 +417,17 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < nCheckpoints; i++)
         {
             var checkpoint = Instantiate(checkpointPrefab);
-            if (Level == 1) {
-              checkpoint.layer = SCREEN2;
-              _rightPopup.GetComponent<PopupController>().ShowTacos();
-              _leftPopup.GetComponent<PopupController>().HideTacos();
-            } else {
-              checkpoint.layer = SCREEN1;
-              _leftPopup.GetComponent<PopupController>().ShowTacos();
-              _rightPopup.GetComponent<PopupController>().HideTacos();
+            if (Level == 1)
+            {
+                checkpoint.layer = SCREEN2;
+                _rightPopup.GetComponent<PopupController>().ShowTacos();
+                _leftPopup.GetComponent<PopupController>().HideTacos();
+            }
+            else
+            {
+                checkpoint.layer = SCREEN1;
+                _leftPopup.GetComponent<PopupController>().ShowTacos();
+                _rightPopup.GetComponent<PopupController>().HideTacos();
             }
             checkpoint.transform.parent = transform.parent;
             checkpoints.Add(checkpoint.GetComponent<Checkpoint>());
@@ -420,10 +450,11 @@ public class GameManager : MonoBehaviour
             int index = 0;
             // Make sure we have a proper distance from the reviously placed checkpoint.
             // Start measurements from the player
-            do {
-              index = UnityEngine.Random.Range(0, keyList.Count);
-              pos = freeTiles[keyList[index]];
-              distLastCheckpoint = Vector2.Distance(previousVector, pos);
+            do
+            {
+                index = UnityEngine.Random.Range(0, keyList.Count);
+                pos = freeTiles[keyList[index]];
+                distLastCheckpoint = Vector2.Distance(previousVector, pos);
             } while (distLastCheckpoint < CHECKPOINTDISTANCE);
             previousVector = pos;
 
@@ -453,8 +484,8 @@ public class GameManager : MonoBehaviour
         if (currentCheckpoint < checkpoints.Count)
         {
             // particleSystem.particleEmitter = checkpoints[currentCheckpoint -1].transform.position;
-             ParticleSystem.ShapeModule _editableShape = particleSystem.GetComponent<ParticleSystem>().shape;
-            _editableShape.position = checkpoints[currentCheckpoint -1].transform.position;
+            ParticleSystem.ShapeModule _editableShape = particleSystem.GetComponent<ParticleSystem>().shape;
+            _editableShape.position = checkpoints[currentCheckpoint - 1].transform.position;
             particleSystem.GetComponent<ParticleSystem>().Play();
             checkpoints[currentCheckpoint].gameObject.SetActive(true);
         }
