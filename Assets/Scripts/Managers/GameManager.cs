@@ -139,10 +139,13 @@ public class GameManager : MonoBehaviour
     {
         OnLevelLoaded();
         ResetScene();
-        if(!_loadedBefore){
+        if (!_loadedBefore)
+        {
             _loadedBefore = true;
-           gameState =  GameState.Tutorial;
-        }else{
+            gameState = GameState.Tutorial;
+        }
+        else
+        {
             gameState = GameState.WaitTime;
             StartCoroutine(SleepTime());
         }
@@ -229,31 +232,34 @@ public class GameManager : MonoBehaviour
         PlayerController.killstreak = 0;
     }
 
-    IEnumerator ghostDistance()
+    private void ghostDistance()
     {
-        Vector2 pacmanVector = new Vector2(pacman.transform.position.x, pacman.transform.position.y);
-        foreach (var ghost in ghosts)
-        {
-            GameObject ghostObject = ghost.gameObject;
-            if (ghostObject.activeSelf)
+            Vector2 pacmanVector = new Vector2(pacman.transform.position.x, pacman.transform.position.y);
+            foreach (var ghost in ghosts)
             {
-          Vector2 ghostVector = new Vector2(ghost.transform.position.x, ghost.transform.position.y);
-          float dist = Vector2.Distance(ghostVector, pacmanVector);
-           GameObject camera = GameObject.Find("Left Camera");
-              if(ghost.standardLayer == SCREEN1){
-                camera = GameObject.Find("Right Camera");
-              }
-          if (dist < 4.5) {
-            camera.GetComponent<CameraMaterialChanger>().Glitch = true;
-            ghostObject.layer = SCREENALL;
-          } else {
-            camera.GetComponent<CameraMaterialChanger>().Glitch = false;
-            ghostObject.layer = ghost.standardLayer;
-          }
+                GameObject ghostObject = ghost.gameObject;
+                if (ghostObject.activeSelf)
+                {
+                    Vector2 ghostVector = new Vector2(ghost.transform.position.x, ghost.transform.position.y);
+                    float dist = Vector2.Distance(ghostVector, pacmanVector);
+                    GameObject camera = GameObject.Find("Left Camera");
+                    if (ghost.standardLayer == SCREEN1)
+                    {
+                        camera = GameObject.Find("Right Camera");
+                    }
+                    if (dist < 4.5)
+                    {
+                        camera.GetComponent<CameraMaterialChanger>().Glitch = true;
+                        ghostObject.layer = SCREENALL;
+                    }
+                    else
+                    {
+                        camera.GetComponent<CameraMaterialChanger>().Glitch = false;
+                        ghostObject.layer = ghost.standardLayer;
+                    }
+                }
+            }
         }
-        yield return null;
-    }
-    }
     IEnumerator SleepTime()
     {
         yield return new WaitForSeconds(1);
@@ -278,7 +284,7 @@ public class GameManager : MonoBehaviour
             {
                 gameState = GameState.WaitTime;
                 UseDivider.SetActive(false);
-                 StartCoroutine(SleepTime());
+                StartCoroutine(SleepTime());
             }
         }
         if (gameState == GameState.WaitTime)
@@ -302,7 +308,7 @@ public class GameManager : MonoBehaviour
 
         if (gameState == GameState.Game)
         {
-            StartCoroutine(ghostDistance());
+            ghostDistance();
         }
     }
 
