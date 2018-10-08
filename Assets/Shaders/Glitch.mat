@@ -4,7 +4,7 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Glitch
   m_Shader: {fileID: 4800000, guid: 4abf0761725c940f48e03c3d69f9e20e, type: 3}
@@ -66,7 +66,7 @@ Material:
     - _DispIntensity: 0.09
     - _DispProbability: 0.2
     - _DstBlend: 0
-    - _GlitchInterval: 0
+    - _GlitchInterval: 0.5
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -83,3 +83,4 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
